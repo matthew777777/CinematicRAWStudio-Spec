@@ -13,7 +13,7 @@ import numpy as np
 
 MAGIC = b"CRAW"
 TRAILER_MAGIC = b"CRAWEND\0"
-VERSION = (0, 1)
+VERSION = (0, 2)
 
 # (G1, G2, R, B) positions in the 2x2 cell, index = py * 2 + px.
 CFA_LAYOUT = {
@@ -26,8 +26,6 @@ CFA_NAMES = {"RGGB": 0, "GRBG": 1, "GBRG": 2, "BGGR": 3}
 
 RICE_LIMIT = 24
 ESCAPE_BITS = 24
-MAX_K = 20
-CONTEXTS = 16
 
 
 def _crc32c_table():
@@ -99,83 +97,102 @@ class BitReader:
         return q
 
 
-def _neighbours(p, x, y):
-    if x == 0 and y == 0:
-        return None
-    if y == 0:
-        a = p[y][x - 1]
-        return a, a, a
-    if x == 0:
-        b = p[y - 1][x]
-        return b, b, b
-    return p[y][x - 1], p[y - 1][x], p[y - 1][x - 1]
+BLOCK = 16
+MAX_BLOCK_K = 16
 
 
-def _predict(nb, first_pred):
-    if nb is None:
-        return first_pred, 0
-    a, b, c = nb
+def _residuals(p, first_pred):
+    """Zigzag MED residuals of one tile plane (SPEC 3.4); p is a list of rows."""
+    h, w = len(p), len(p[0])
+    out = [[0] * w for _ in range(h)]
+    for y in range(h):
+        for x in range(w):
+            if x == 0 and y == 0:
+                pred = first_pred
+            elif y == 0:
+                pred = p[y][x - 1]
+            elif x == 0:
+                pred = p[y - 1][x]
+            else:
+                pred = _med(p[y][x - 1], p[y - 1][x], p[y - 1][x - 1])
+            e = p[y][x] - pred
+            out[y][x] = 2 * e if e >= 0 else -2 * e - 1
+    return out
+
+
+def _med(a, b, c):
     if c >= max(a, b):
-        pred = min(a, b)
-    elif c <= min(a, b):
-        pred = max(a, b)
+        return min(a, b)
+    if c <= min(a, b):
+        return max(a, b)
+    return a + b - c
+
+
+def _block_k(y, bx, sums, lens, rice_init):
+    """k for block bx of row y from causal block sums (SPEC 3.4)."""
+    n = lens[bx]
+    up = (sums[y - 1][bx] * BLOCK) // n if y > 0 else None
+    left = sums[y][bx - 1] if bx > 0 else None
+    if up is None and left is None:
+        s = rice_init * 2 * BLOCK
+    elif up is None:
+        s = 2 * left
+    elif left is None:
+        s = 2 * up
     else:
-        pred = a + b - c
-    g = abs(a - c) + abs(b - c)
-    return pred, min(g.bit_length(), CONTEXTS - 1)
+        s = up + left
+    v = (s * 11) >> 4
+    return min(((v >> 5) + 1).bit_length() - 1, MAX_BLOCK_K)
 
 
-def _k(a, n):
-    k = 0
-    while (n << k) < a and k < MAX_K:
-        k += 1
-    return k
+def _block_lens(w):
+    return [min(BLOCK, w - x) for x in range(0, w, BLOCK)]
+
+
+def _put_code(bw, u, k):
+    q = u >> k
+    if q < RICE_LIMIT:
+        bw.put(1, q + 1)
+        bw.put(u, k)
+    else:
+        bw.put(1, RICE_LIMIT + 1)
+        bw.put(u, ESCAPE_BITS)
 
 
 def _encode_plane(bw, p, first_pred, rice_init):
-    A = [rice_init] * CONTEXTS
-    N = [1] * CONTEXTS
-    h, w = len(p), len(p[0])
-    for y in range(h):
-        for x in range(w):
-            pred, ctx = _predict(_neighbours(p, x, y), first_pred)
-            e = p[y][x] - pred
-            u = 2 * e if e >= 0 else -2 * e - 1
-            k = _k(A[ctx], N[ctx])
-            q = u >> k
-            if q < RICE_LIMIT:
-                bw.put(1, q + 1)
-                bw.put(u, k)
-            else:
-                bw.put(1, RICE_LIMIT + 1)
-                bw.put(u, ESCAPE_BITS)
-            A[ctx] += u
-            N[ctx] += 1
-            if N[ctx] == 64:
-                A[ctx] >>= 1
-                N[ctx] >>= 1
+    u = _residuals(p, first_pred)
+    lens = _block_lens(len(p[0]))
+    sums = []
+    for y, row in enumerate(u):
+        sums.append([sum(row[i * BLOCK:i * BLOCK + n]) for i, n in enumerate(lens)])
+        for bx, n in enumerate(lens):
+            k = _block_k(y, bx, sums, lens, rice_init)
+            for x in range(bx * BLOCK, bx * BLOCK + n):
+                _put_code(bw, row[x], k)
 
 
 def _decode_plane(br, w, h, first_pred, rice_init):
-    A = [rice_init] * CONTEXTS
-    N = [1] * CONTEXTS
+    lens = _block_lens(w)
     p = [[0] * w for _ in range(h)]
+    sums = []
     for y in range(h):
-        for x in range(w):
-            pred, ctx = _predict(_neighbours(p, x, y), first_pred)
-            k = _k(A[ctx], N[ctx])
-            q = br.zeros_then_one(RICE_LIMIT)
-            if q < RICE_LIMIT:
-                u = (q << k) | br.get(k)
-            else:
-                u = br.get(ESCAPE_BITS)
-            e = u >> 1 if u & 1 == 0 else -((u + 1) >> 1)
-            p[y][x] = pred + e
-            A[ctx] += u
-            N[ctx] += 1
-            if N[ctx] == 64:
-                A[ctx] >>= 1
-                N[ctx] >>= 1
+        sums.append([0] * len(lens))
+        for bx, n in enumerate(lens):
+            k = _block_k(y, bx, sums, lens, rice_init)
+            for x in range(bx * BLOCK, bx * BLOCK + n):
+                q = br.zeros_then_one(RICE_LIMIT)
+                u = (q << k) | br.get(k) if q < RICE_LIMIT else br.get(ESCAPE_BITS)
+                sums[y][bx] += u
+                e = u >> 1 if u & 1 == 0 else -((u + 1) >> 1)
+                if x == 0 and y == 0:
+                    pred = first_pred
+                elif y == 0:
+                    pred = p[y][x - 1]
+                elif x == 0:
+                    pred = p[y - 1][x]
+                else:
+                    pred = _med(p[y][x - 1], p[y - 1][x], p[y - 1][x - 1])
+                p[y][x] = pred + e
     return p
 
 

@@ -7,8 +7,8 @@
     "cfa": 0,
     "tile": 128,
     "rice_init": 16,
-    "payload_sha256": "0c810ce4497ee7e14a130c32d1f6a5c4259e052651a5dc5e38b2cb5e09720718",
-    "payload_size": 321,
+    "payload_sha256": "e0965b242dc3699d2d9e4a2377e6e89b32eb774e8f64270f56bbc19bcdc67db2",
+    "payload_size": 270,
     "raw_size": 3072
   },
   {
@@ -19,8 +19,8 @@
     "cfa": 1,
     "tile": 128,
     "rice_init": 16,
-    "payload_sha256": "53499a57926c4e759e5b2ddb64730043db7468de491b05046ff7bfd8ca5861db",
-    "payload_size": 5276,
+    "payload_sha256": "8801257fbcd257deb62007ff70b12d1db69b576c983d8765321dd9c036d60def",
+    "payload_size": 4109,
     "raw_size": 24576
   },
   {
@@ -31,8 +31,8 @@
     "cfa": 2,
     "tile": 128,
     "rice_init": 64,
-    "payload_sha256": "0de578c32a185f78f1c9e595ac342f2a245ba5440e0d36a2c35e2ca67c90798c",
-    "payload_size": 8838,
+    "payload_sha256": "2c3459cc82f4fc3d3fe65df7368cfdb3f490e8cf72632f2562aab3f0d811a070",
+    "payload_size": 8859,
     "raw_size": 10240
   },
   {
@@ -43,8 +43,8 @@
     "cfa": 3,
     "tile": 16,
     "rice_init": 16,
-    "payload_sha256": "1ef215fc3e08bba68e5d9cb60912d85346587c60b37d90f527cba2d42f1859b9",
-    "payload_size": 9766,
+    "payload_sha256": "2ec9ddb6fd8d1621aa87266f4917355e807a4db531bd28db2db9e6456c302a4f",
+    "payload_size": 9701,
     "raw_size": 24576
   },
   {
@@ -67,8 +67,8 @@
     "cfa": 0,
     "tile": 32,
     "rice_init": 256,
-    "payload_sha256": "530c00451bcc379cce6b649c9a8edb08d9a2bc437b84b1a8e34181fe957576c6",
-    "payload_size": 15872,
+    "payload_sha256": "e60b53ebfb858b9e30847a9c94d947d27effcd993bff2a04283d3a75022050ab",
+    "payload_size": 15723,
     "raw_size": 24576
   }
 ]

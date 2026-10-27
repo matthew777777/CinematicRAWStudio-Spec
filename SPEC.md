@@ -1,4 +1,4 @@
-# Cinematic RAW Studio (.CRAW) — Format Specification v0.1 (draft)
+# Cinematic RAW Studio (.CRAW) — Format Specification v0.2 (draft)
 
 SPDX-License-Identifier: Apache-2.0
 
@@ -26,7 +26,7 @@ Trailer             16 bytes
 |-----|---------|----------------------------------------|
 | 0   | u8[4]   | magic `"CRAW"`                         |
 | 4   | u16     | major version = 0                      |
-| 6   | u16     | minor version = 1                      |
+| 6   | u16     | minor version = 2                      |
 | 8   | u32     | flags (0; reserved)                    |
 | 12  | u32     | reserved, 0                            |
 
@@ -178,27 +178,39 @@ Per coded plane, samples in raster order inside the tile. Neighbours inside
 the tile only: `a` left, `b` up, `c` up-left.
 
 - first sample of the tile: `pred = 2^(bit_depth-1)` for plane 0, else `0`
-- first row (x>0): `a` exists; set `b = c = a`
-- first column (y>0): `b` exists; set `a = c = b`
+- first row (x>0): `pred = a`
+- first column (y>0): `pred = b`
 - otherwise MED: `c >= max(a,b) → min(a,b)`, `c <= min(a,b) → max(a,b)`,
   else `a + b − c`
 
-The first sample uses context 0. Others use
-`g = |a − c| + |b − c|`, `ctx = min(bit_length(g), 15)` (16 contexts).
-
 Residual `e = v − pred`, zigzag `u = e >= 0 ? 2e : −2e − 1`.
 
-Adaptive Golomb-Rice, state per context reset at the start of every
-**plane of every tile**: `A = rice_init`, `N = 1`.
-`k` = smallest `k >= 0` with `N << k >= A`, capped at 20.
+**Block-adaptive Golomb-Rice.** Each row of a tile plane is cut into blocks of
+16 samples (the last may be shorter, length `n`). Let `S(y, bx)` be the sum of
+`u` over block `bx` of row `y`. The Rice parameter of a block is derived only
+from already-coded blocks, so it costs no bits:
 
-Code word, MSB-first bits:
+```
+up   = S(y-1, bx) * 16 / n        (integer division; y > 0 only)
+left = S(y, bx-1)                 (bx > 0 only; always a full block)
+s    = up + left       if both exist
+       2 * up          if only up
+       2 * left        if only left
+       rice_init * 32  if neither
+v = (s * 11) >> 4
+k = min(bit_length((v >> 5) + 1) − 1, 16)
+```
+
+Code word per sample, MSB-first bits:
 - `q = u >> k`; if `q < 24`: `q` zero bits, one `1` bit, then low `k` bits of `u`
 - else escape: 24 zero bits, one `1` bit, then `u` in 24 bits
 
-Update: `A += u; N += 1; if N == 64: A >>= 1; N >>= 1`.
+Planes 0..3 of a tile follow each other in one bit stream, which is
+zero-padded to a byte boundary at the end of the tile.
 
-The bit stream of a tile is zero-padded to a byte boundary.
+Rationale (non-normative): with no per-sample adaptive state the encoder has
+no serial dependency and vectorises; on real phone footage it costs <5 % vs
+per-pixel context adaptation (4.97 vs 4.75 bpp binned, 3.62 vs 3.67 full-res).
 
 ### 3.5 Noise class
 
