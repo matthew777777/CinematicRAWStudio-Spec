@@ -6,10 +6,11 @@
 | 2 | Python reference + golden vectors; real-footage benchmark vs .mcraw type 7 | done: −23 % (binned) / −14 % (full-res) vs type 7; JPEG XL comparison pending (cjxl not installed) |
 | 3 | Spec v0.2: block-adaptive Rice (per-pixel adaptive v0.1 was serial-bound on phones) | done, draft |
 | 4 | C++ encoder / clean-room decoder bit-exact vs reference | done |
-| 5 | Speed: NEON extract/MED/block sums, branchless bit writer, parallel CRC, zero-copy commit | in progress (numbers below) |
+| 5 | Speed: NEON extract/MED/block sums, quad code-word puts, parallel CRC, zero-copy commit, big-core pinning, MT decode | done for this device (numbers below) |
 | 6 | RawLens integration: CRS replaced by .CRAW (JNI, recorder, burst, reader), on-device round-trip test | done; real Camera2 recording run pending |
-| 7 | DaVinci Resolve: CinemaDNG virtual mount + `craw2dng` / `craw2cinemadng` | |
-| 8 | CRAW-Max (rANS, codec id 2), run mode, THMB, LSHD chunk from recorder, F32 audio, spec v1.0 | |
+| 7 | DaVinci Resolve: `craw_mount` (fuse-t CinemaDNG mount) + `craw2dng` | done; not yet tried inside Resolve itself |
+| 8 | LSHD chunk from recorder, F32 audio | done |
+| 9 | CRAW-Max (rANS, codec id 2), run mode, THMB, spec v1.0 | |
 
 ## Measured on MT6878 (Xiaomi 25080RABDG), 12-bit 4080×3060
 
@@ -18,6 +19,12 @@
 | craw_bench, 8 threads, intra-frame | ~650 | ~52 | ~78 |
 | RawLens JNI, 4 frame workers, incl. storage | 504 | 40.4 | 60.7 |
 | RawLens JNI, 8 frame workers, incl. storage | 539 | 43.2 | 65.0 |
+| + quad puts, fast-core pinning, 6 workers | 653–700 | 52–56 | 79–84 |
+| decode (RawLens JNI, all cores) | 256–298 | — | — |
+
+Camera limit on this phone: RAW_SENSOR minimum frame duration is 50 ms at
+every advertised size (20 fps; RawLens achieves 30 in practice), so the
+encoder already exceeds what this sensor delivers.
 
 Goal "4K 12-bit ≥ 60 fps": met for UHD 3840×2160 on the app path. Full
 4080×3060 @ 60 needs 749 MPix/s and ~485 MB/s sustained storage (device
