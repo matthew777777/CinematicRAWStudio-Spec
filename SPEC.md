@@ -266,6 +266,41 @@ stream and packed blocks) is not smaller than `8 * tw * th` bytes.
 Larger tiles are already representable through the header; changing the
 16-sample block length requires a new codec definition.
 
+### 3.7 CRAW-Live v2 (codec id 3)
+
+Codec 3 has the tile layout, traversal order, stored mode, header and CRC
+rules of §3.6, with two changes: the predictor, and the block header (which
+can describe a patched block).
+
+**Prediction** (cell plane, samples inside this tile only; `L` left, `U` up,
+`UL` up-left, `UR` up-right in the same cell):
+
+- `y = 0`: `pred = 2^(bit_depth-1)` for `x = 0`, otherwise `L`;
+- `y > 0, x = 0`: `pred = U`;
+- `y > 0, x > 0`: `pred = (L + U + UL + UR + 2) >> 2`, where `UR = U` in
+  the tile's last column.
+
+Residuals `u` are zigzagged as in §3.6.
+
+**Blocks** (16 samples; the last block of a row has `n = min(16, tw-x0)`).
+The first nibble `t` of a block selects its form:
+
+- `t = 0..13`: plain block of width `w = t`;
+- `t = 15`: plain block of width `w = 14 + next nibble` (14..29);
+- `t = 14`: patched block. Nibbles follow: `k` (as `w` in §3.6: below 15
+  directly, else `15, k-15`), `ne` (exception count, 1..15), `hb` (same
+  coding as `k`), then `ne` sample indices `0..n-1`.
+
+Plain block data: `n` values of `w` bits, LSB first, byte-aligned (§3.6).
+Patched block data: the low `k` bits of all `n` values, byte-aligned, then
+the `ne` high parts (`u >> k`) of `hb` bits each, in index order,
+byte-aligned. A sample's residual is `low | high << k` for listed indices and
+`low` otherwise.
+
+Encoders choose the form; any choice decodes. The reference encoder emits
+patched blocks only on request (they save 0.2-0.5 % on real footage for
+about twice the encode time) and otherwise always emits the plain form.
+
 ---
 
 ## 4. LSHD
