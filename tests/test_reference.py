@@ -29,6 +29,18 @@ class RoundTrip(unittest.TestCase):
                 back, info = craw.decode_frame(craw.encode_frame(raw, bits, cfa, tile=13, codec=2))
                 np.testing.assert_array_equal(back, raw)
 
+    def test_live2_codec_round_trip(self):
+        rng = np.random.default_rng(3)
+        for bits in (8, 10, 12, 16):
+            for cfa in range(4):
+                raw = rng.integers(0, 1 << bits, (18, 38), dtype=np.uint16)
+                back, _ = craw.decode_frame(craw.encode_frame(raw, bits, cfa, tile=13, codec=3, frame_crc=False))
+                np.testing.assert_array_equal(back, raw)
+        yy, xx = np.mgrid[0:40, 0:70]
+        smooth = ((xx * 5 + yy * 3) % 1024 + rng.integers(0, 9, xx.shape)).astype(np.uint16)
+        back, _ = craw.decode_frame(craw.encode_frame(smooth, 10, 2, tile=32, codec=3))
+        np.testing.assert_array_equal(back, smooth)
+
     def test_rejects_out_of_range(self):
         with self.assertRaises(ValueError):
             craw.encode_frame(np.full((4, 4), 1024, np.uint16), 10, 0)

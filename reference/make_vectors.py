@@ -28,6 +28,11 @@ def cases():
     yield "edges_tile5", np.where(rng.random((22, 34)) < 0.5, 0, 65535).astype(np.uint16), 16, 0, 5
     yield "scene14_rggb_tile32", (scene.astype(np.uint32) * 16).astype(np.uint16), 14, 0, 32
     yield "live_scene10_gbrg", scene, 10, 2, 128, 2
+    yield "live2_scene10_gbrg", scene, 10, 2, 128, 3, False
+    yield "live2_noise12_tile20", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 3
+    yield "live2_edges16_tile5", np.where(rng.random((22, 34)) < 0.5, 0, 65535).astype(np.uint16), 16, 3, 5, 3
+    yield "live2pfor_scene10_gbrg", scene, 10, 2, 128, 3, False, True
+    yield "live2pfor_noise12_tile20", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 3, True, True
     yield "live_nocrc10_rggb", scene[:, :64], 10, 0, 128, 2, False
     yield "live_noise12_tile20", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 2
     yield "live_edges16_tile5", np.where(rng.random((22, 34)) < 0.5, 0, 65535).astype(np.uint16), 16, 3, 5, 2
@@ -49,13 +54,14 @@ def main(out_dir):
     for name, raw, bits, cfa, tile, *rest in cases():
         codec = rest[0] if rest else 1
         frame_crc = rest[1] if len(rest) > 1 else True
-        payload = craw.encode_frame(raw, bits, cfa, tile, codec=codec, frame_crc=frame_crc)
+        pfor = rest[2] if len(rest) > 2 else False
+        payload = craw.encode_frame(raw, bits, cfa, tile, codec=codec, frame_crc=frame_crc, pfor=pfor)
         back, _ = craw.decode_frame(payload)
         assert np.array_equal(back, raw), name
         (out / f"{name}.raw").write_bytes(raw.astype("<u2").tobytes())
         (out / f"{name}.payload").write_bytes(payload)
         manifest.append({"name": name, "width": raw.shape[1], "height": raw.shape[0],
-                         "bit_depth": bits, "cfa": cfa, "tile": tile, "codec": codec, "frame_crc": int(frame_crc),
+                         "bit_depth": bits, "cfa": cfa, "tile": tile, "codec": codec, "frame_crc": int(frame_crc), "pfor": int(pfor),
                          "rice_init": craw.default_rice_init(bits),
                          "payload_sha256": hashlib.sha256(payload).hexdigest(),
                          "payload_size": len(payload), "raw_size": raw.nbytes})

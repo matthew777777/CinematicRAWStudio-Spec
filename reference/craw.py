@@ -254,6 +254,117 @@ def _live_decode_row(nibbles, data, pos, p, y, w_, first_pred):
     return pos
 
 
+# ------------------------------------------------- codec 3: CRAW-Live v2 (PFOR)
+
+PFOR_MAX_EXC = 15
+
+
+def _avg4_pred(p, x, y, first_pred):
+    """SPEC 3.7 prediction inside one tile plane."""
+    w = len(p[0])
+    if y == 0:
+        return first_pred if x == 0 else p[0][x - 1]
+    if x == 0:
+        return p[y - 1][0]
+    L, U, UL = p[y][x - 1], p[y - 1][x], p[y - 1][x - 1]
+    UR = p[y - 1][x + 1] if x + 1 < w else U
+    return (L + U + UL + UR + 2) >> 2
+
+
+def _width_nibbles(out, v):
+    if v < 15:
+        out.append(v)
+    else:
+        out.extend([15, v - 15])
+
+
+def _read_width(nibbles):
+    v = next(nibbles)
+    return v + next(nibbles) if v == 15 else v
+
+
+def _pack_bits(data, values, w):
+    acc, n = 0, 0
+    for v in values:
+        acc |= v << n
+        n += w
+    data.extend(acc.to_bytes((n + 7) // 8, "little") if n else b"")
+
+
+PFOR_TAG = 14   # first nibble: 0..13 plain width, 14 PFOR block, 15 escape (14 + next)
+
+
+def _pfor_choose(blk, pfor=True):
+    """(k, exceptions, bw) minimising the block's bits (SPEC 3.7)."""
+    bw = max(blk).bit_length()
+    plain = len(blk) * bw + (4 if bw < 14 else 8)
+    best = (plain, bw, [])
+    for k in (range(max(0, bw - 8), bw) if pfor else ()):
+        exc = [i for i, v in enumerate(blk) if v >> k]
+        if not exc or len(exc) > PFOR_MAX_EXC:
+            continue
+        hb = bw - k
+        # tag + k + count + high width + one index nibble per exception
+        cost = len(blk) * k + 4 + (4 if k < 15 else 8) + 4 + (4 if hb < 15 else 8) + len(exc) * (4 + hb)
+        if cost < best[0]:
+            best = (cost, k, exc)
+    return best[1], best[2], bw
+
+
+def _pfor_encode_row(nib, data, u, pfor=False):
+    for x0 in range(0, len(u), BLOCK):
+        blk = u[x0:x0 + BLOCK]
+        k, exc, bw = _pfor_choose(blk, pfor)
+        if not exc:
+            if bw < PFOR_TAG:
+                nib.append(bw)
+            else:
+                nib.extend([15, bw - PFOR_TAG])  # escape: width 14..29
+            _pack_bits(data, blk, bw)
+            continue
+        nib.append(PFOR_TAG)
+        _width_nibbles(nib, k)
+        nib.append(len(exc))
+        hb = bw - k
+        _width_nibbles(nib, hb)
+        nib.extend(exc)
+        mask = (1 << k) - 1
+        _pack_bits(data, [v & mask for v in blk], k)
+        _pack_bits(data, [blk[i] >> k for i in exc], hb)
+
+
+def _unpack_bits(data, pos, count, w):
+    nbytes = (count * w + 7) // 8
+    acc = int.from_bytes(data[pos:pos + nbytes], "little")
+    return [(acc >> (i * w)) & ((1 << w) - 1) for i in range(count)], pos + nbytes
+
+
+def _pfor_decode_row(nibbles, data, pos, width):
+    u = []
+    for x0 in range(0, width, BLOCK):
+        n = min(BLOCK, width - x0)
+        t = next(nibbles)
+        if t != PFOR_TAG:
+            w = t if t < 15 else PFOR_TAG + next(nibbles)
+            vals, pos = _unpack_bits(data, pos, n, w)
+            u.extend(vals)
+            continue
+        k = _read_width(nibbles)
+        ne = next(nibbles)
+        hb = _read_width(nibbles)
+        idx = [next(nibbles) for _ in range(ne)]
+        low, pos = _unpack_bits(data, pos, n, k)
+        high, pos = _unpack_bits(data, pos, ne, hb)
+        for i, h in zip(idx, high):
+            low[i] |= h << k
+        u.extend(low)
+    return u, pos
+
+
+def _unzigzag(u):
+    return u >> 1 if u & 1 == 0 else -((u + 1) >> 1)
+
+
 def _pack_nibbles(ns):
     out = bytearray((len(ns) + 1) // 2)
     for i, v in enumerate(ns):
@@ -272,7 +383,8 @@ def split_planes(raw):
 
 
 def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
-                 rice_init: int | None = None, codec: int = 1, frame_crc: bool = True) -> bytes:
+                 rice_init: int | None = None, codec: int = 1, frame_crc: bool = True,
+                 pfor: bool = False) -> bytes:
     """Encodes a (H, W) uint16 Bayer frame into a codec payload (SPEC 3.1)."""
     raw = np.ascontiguousarray(raw, dtype=np.uint16)
     h, w = raw.shape
@@ -291,7 +403,21 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
     tiles = []
     for ty in range(0, ph, tile):
         for tx in range(0, pw, tile):
-            if codec == 2:
+            if codec == 3:
+                nib, data = [], bytearray()
+                subs = [pl[ty:ty + tile, tx:tx + tile].astype(np.int64).tolist() for pl in planes]
+                first = 1 << (bit_depth - 1)
+                for y in range(len(subs[0])):
+                    for cell in range(4):
+                        p = subs[cell]
+                        u = []
+                        for x in range(len(p[0])):
+                            e = p[y][x] - _avg4_pred(p, x, y, first)
+                            u.append(2 * e if e >= 0 else -2 * e - 1)
+                        _pfor_encode_row(nib, data, u, pfor)
+                packed = _pack_nibbles(nib)
+                body = struct.pack("<I", len(packed)) + packed + bytes(data)
+            elif codec == 2:
                 # Rows of the tile, then cells (py, px) in order; no colour transform.
                 widths, data = [], bytearray()
                 subs = [pl[ty:ty + tile, tx:tx + tile].astype(np.int64).tolist() for pl in planes]
@@ -308,7 +434,7 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
                     _encode_plane(bw, sub, first, rice_init)
                 body = bw.finish()
             stored = b"".join(o[ty:ty + tile, tx:tx + tile].astype("<u2").tobytes()
-                              for o in (planes if codec == 2 else ordered))
+                              for o in (planes if codec in (2, 3) else ordered))
             tiles.append(b"\0" + body if len(body) < len(stored) else b"\1" + stored)
     offsets = [0]
     for t in tiles:
@@ -321,7 +447,7 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
 def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
     codec, bit_depth, cfa, flags, w, h, tile, rice_init, crc, count = \
         struct.unpack_from("<BBBBIIHHII", payload, 0)
-    if codec not in (1, 2):
+    if codec not in (1, 2, 3):
         raise ValueError(f"unknown codec {codec}")
     pos = 24
     offsets = struct.unpack_from(f"<{count + 1}I", payload, pos)
@@ -337,10 +463,24 @@ def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
             if data[0] == 1:
                 vals = np.frombuffer(data[1:], "<u2").astype(np.int64).reshape(4, th, tw)
                 for i in range(4):
-                    if codec == 2:
+                    if codec in (2, 3):
                         live[i >> 1][i & 1][ty:ty + th, tx:tx + tw] = vals[i]
                     else:
                         ordered[i][ty:ty + th, tx:tx + tw] = vals[i]
+            elif codec == 3:
+                (nlen,) = struct.unpack_from("<I", data, 1)
+                nibbles = _iter_nibbles(data[5:5 + nlen])
+                body, pos = data[5 + nlen:], 0
+                cells = [[[0] * tw for _ in range(th)] for _ in range(4)]
+                first = 1 << (bit_depth - 1)
+                for y in range(th):
+                    for cell in range(4):
+                        u, pos = _pfor_decode_row(nibbles, body, pos, tw)
+                        p = cells[cell]
+                        for x in range(tw):
+                            p[y][x] = _avg4_pred(p, x, y, first) + _unzigzag(u[x])
+                for cell in range(4):
+                    live[cell >> 1][cell & 1][ty:ty + th, tx:tx + tw] = np.array(cells[cell])
             elif codec == 2:
                 (nlen,) = struct.unpack_from("<I", data, 1)
                 nibbles = _iter_nibbles(data[5:5 + nlen])
@@ -362,7 +502,7 @@ def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
                     ordered[i][ty:ty + th, tx:tx + tw] = planes[i] + planes[0]
             t += 1
     raw = np.zeros((h, w), np.uint16)
-    if codec == 2:
+    if codec in (2, 3):
         for py in (0, 1):
             for px in (0, 1):
                 raw[py::2, px::2] = live[py][px]
