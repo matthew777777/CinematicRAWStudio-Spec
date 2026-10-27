@@ -7,7 +7,11 @@ on open theItems
 		set args to args & " " & quoted form of POSIX path of f
 	end repeat
 	try
-		set out to do shell script "export PATH=\"$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH\"; craw-mount --open" & args
+        set launcher to (system attribute "HOME") & "/.local/bin/craw"
+        try
+            set launcher to do shell script "cat \"$HOME/.local/share/craw/command\""
+        end try
+        set out to do shell script (quoted form of launcher) & " mount" & args
 		display notification out with title "CRAW Mount"
 	on error errMsg
 		display alert "CRAW Mount failed" message errMsg as critical

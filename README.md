@@ -5,7 +5,7 @@ audio, gyro/accelerometer, lens distortion & intrinsics, and lens-shading
 (vignetting) maps — with an open encoder, decoder and tools that take it into
 DaVinci Resolve and other editors. Apache-2.0.
 
-**New here? → [GETTING_STARTED.md](GETTING_STARTED.md)** (phone → Mac → Resolve in three steps).
+**New here? → [GETTING_STARTED.md](GETTING_STARTED.md)** (Mac, Linux and Windows).
 
 ## Repositories
 
@@ -17,28 +17,44 @@ DaVinci Resolve and other editors. Apache-2.0.
 | [CinematicRAWStudio-TUI](../CinematicRAWStudio-TUI) | `craw-tui`: terminal browser, grading and renderer (ProRes, DNxHR, HEVC, H.264, AV1, CinemaDNG) |
 | RawLens (Android app) | records `.craw` via the encoder (GPL-3.0-or-later app; the CRAW libraries are Apache-2.0) |
 
-## One-command install (macOS)
+## Install all desktop tools
 
-```
-scripts/install-macos.sh --add-to-path
-```
-Installs dependencies (Homebrew: cmake, ninja, ffmpeg, fuse-t), builds all
-repos in Release, runs the self-tests, installs to `~/.local/bin`:
+**Mac and Linux — paste in Terminal:**
 
-| tool | purpose |
-|------|---------|
-| `craw-pull` | copy takes from the phone over adb (`--mount` to mount them) |
-| `craw-mount` / `craw-unmount` | mount takes as CinemaDNG folders under `~/CRAW` for Resolve |
-| `CRAW Mount.app` / `CRAW Unmount.app` | the same as one-click apps (double-click / drag & drop / *Open With*) |
-| `craw-tui` | browse, preview, grade, render |
-| `craw2dng` | write CinemaDNG + WAV to disk |
-| `craw_dec` | inspect / verify / dump frames |
-| `craw_enc` | encode raw uint16 frames into a take (testing, pipelines) |
+```sh
+curl -fsSL https://raw.githubusercontent.com/matthew777777/CinematicRAWStudio-Spec/main/scripts/install.sh | bash
+```
+
+**Windows 10/11 x64 — paste in PowerShell:**
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/matthew777777/CinematicRAWStudio-Spec/main/scripts/install.ps1)))
+```
+
+Open a new terminal after installation. No separate repo setup is needed.
+System dependencies may ask for your password or Windows permission.
+
+```sh
+craw                         # browse, preview, grade and render
+craw mount "take.craw"       # open a CinemaDNG folder for Resolve
+craw unmount                 # close mounted takes
+craw export "take.craw"      # save CinemaDNG + WAV as normal files
+craw pull --mount            # copy and open the latest phone take
+```
+
+[Step-by-step guide](GETTING_STARTED.md) ·
+[Installer details for developers](scripts/INSTALLATION.md)
+
+The shared installer fetches and builds Encoder, Decoder and TUI. It installs
+`craw`, `craw-tui`, `craw_enc`, `craw_bench`, `craw_dec`, `craw2dng`,
+`craw_mount`, and the `craw-mount`/`craw-unmount`/`craw-pull` aliases.
+Mac gets Mount/Unmount apps; Linux gets a menu entry; Windows gets a Start
+menu shortcut and Open With registration. Installers do not run tests.
 
 ## Format at a glance
 
 - Chunked container (header, META JSON, FRAM, AUDI, IMU_, LSHD, THMB, INDX,
-  trailer), CRC32C on every chunk and every frame, crash-recoverable.
+  trailer), CRC32C on every chunk, optional raw-frame CRC, crash-recoverable.
 - Codec **CRAW-Fast** (v0.2): four CFA planes with green-difference
   prediction, MED predictor, block-adaptive Golomb-Rice (16-sample blocks,
   causal parameter — no side information), 128x128 independent tiles.
