@@ -115,9 +115,11 @@ is while mounted.
    **Media Pool**. Resolve recognises it as a **CinemaDNG** clip with the
    recorded frame rate and timecode.
 3. **Audio:** if the WAV is not attached automatically, drag
-   `<take>.wav` into the Media Pool too, select both clips ▸ right-click ▸
-   **Auto Sync Audio ▸ Based on Timecode** (both start at 00:00:00:00), or
-   simply place both on the timeline at the start.
+   `<take>.wav` into the Media Pool too. Place the video and WAV on separate
+   timeline tracks at the same start time (both start at 00:00:00:00).
+   Exported WAVs use integer PCM; float source audio becomes 24-bit PCM.
+   Use timeline placement: Resolve's automatic audio synchronization dialog
+   has crashed with these takes.
 4. **Project frame rate:** set *File ▸ Project Settings ▸ Master Settings ▸
    Timeline frame rate* to the take's rate **before** adding clips to a
    timeline (RawLens records 30 fps by default; `craw-tui info -f take.craw`

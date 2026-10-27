@@ -32,6 +32,15 @@ def cases():
     yield "live_noise12_tile20", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 2
     yield "live_edges16_tile5", np.where(rng.random((22, 34)) < 0.5, 0, 65535).astype(np.uint16), 16, 3, 5, 2
 
+    # Escaped width nibbles, full SIMD blocks, and short edge blocks.
+    for bits in (1, 13, 14, 15, 16):
+        raw = np.full((18, 70), (1 << bits) // 2, np.uint16)
+        raw[2, 2:6] = 0
+        raw[4, 8:12] = (1 << bits) - 1
+        yield f"live_width{bits}_tile32", raw, bits, bits % 4, 32, 2, False
+    yield "live_zero_width", np.full((18, 70), 512, np.uint16), 10, 0, 32, 2
+    yield "fast_nocrc10", scene, 10, 0, 32, 1, False
+
 
 def main(out_dir):
     out = pathlib.Path(out_dir)

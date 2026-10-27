@@ -130,7 +130,7 @@ u8[]          codec payload (§3.1), to end of chunk
 u8   codec_id = 1
 u8   bit_depth        1..16; every sample < 2^bit_depth
 u8   cfa              0 RGGB, 1 GRBG, 2 GBRG, 3 BGGR
-u8   reserved = 0
+u8   flags            bit 0: frame CRC omitted; other bits reserved (zero)
 u32  width            even
 u32  height           even
 u16  tile             tile edge in plane samples (default 128)
@@ -217,6 +217,54 @@ per-pixel context adaptation (4.97 vs 4.75 bpp binned, 3.62 vs 3.67 full-res).
 `rice_init` primes the coder for the expected noise. Encoders should derive it
 from the sensor noise profile and ISO; v0.1 reference uses
 `max(1, 2^(bit_depth-8)) * 4`. Any value 1..65535 decodes correctly.
+
+### 3.6 CRAW-Live (codec id 2)
+
+CRAW-Live is lossless fixed-width block packing. It uses the header and tile
+index in §3.1 with `codec_id = 2`. `rice_init` is present but unused. Both
+codecs may omit the raw-sample CRC: set flag bit 0 and write `frame_crc = 0`.
+The container chunk CRC32C remains mandatory and must be checked before
+using a frame without its own CRC. Standalone payloads without that CRC
+provide structural validation only.
+
+Tiles use the geometry in §3.3. There is no colour transform. Cell order is
+`(py,px) = (0,0), (0,1), (1,0), (1,1)`, independent of CFA. A tile is:
+
+```
+u8 mode                  0 = coded, 1 = stored
+mode 0:
+    u32 width_bytes      byte length of the width-nibble stream
+    u8[width_bytes] widths
+    u8[] packed_blocks
+mode 1:
+    u16[4 * tw * th] raw samples, LE, cell order, each cell row-major
+```
+
+For mode 0, visit tile rows `y = 0..th-1`, then the four cells in order,
+then blocks of 16 samples across that cell row. The last block has
+`n = min(16, tw-x0)` samples. Prediction uses samples inside this tile only:
+
+- `x = 0, y = 0`: `pred = 2^(bit_depth-1)` for every cell;
+- `x = 0, y > 0`: the first sample of the preceding row of the same cell;
+- `x > 0`: the preceding sample of the same cell row, including across blocks.
+
+Compute `e = sample - pred` and `u = e >= 0 ? 2e : -2e-1`.
+The block width is `w = bit_length(max(u))`, with `bit_length(0) = 0`.
+Widths range from 0 through 17. Emit a width below 15 as one nibble;
+otherwise emit nibbles `15, w-15`. Nibbles are packed low nibble first;
+zero-pad an unused high nibble in the final byte.
+
+Pack the block's `n` unsigned residuals in sample order, each using `w`
+bits, least-significant bit first. Start each block at a byte boundary and
+zero-pad its final byte. Width zero emits no block data and reconstructs
+all samples from their predictors. Widths and packed blocks are separate
+streams, each following the traversal order above. Reconstruct signed
+residuals as `u & 1 ? -(u+1)/2 : u/2`, then add the predictor.
+
+Choose stored mode when the coded body (the 4-byte width length, width
+stream and packed blocks) is not smaller than `8 * tw * th` bytes.
+Larger tiles are already representable through the header; changing the
+16-sample block length requires a new codec definition.
 
 ---
 
