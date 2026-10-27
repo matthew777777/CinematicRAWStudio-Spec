@@ -224,10 +224,13 @@ from the sensor noise profile and ISO; v0.1 reference uses
 
 ```
 i64 timestamp_ns, u32 id, u16 map_w, u16 map_h,
-f32[4 * map_w * map_h]   gains, channel order R, G_even, G_odd, B (Camera2
-                         STATISTICS_LENS_SHADING_CORRECTION_MAP layout)
+f32[4 * map_w * map_h]   gains, 4 per grid point, colour order R, Gr, Gb, B
+                         (Gr = green in red rows); row-major points over the
+                         encoded (post-crop) frame, points at cell centres
 ```
-Frames refer to it by `lshd_ref = id` in per-frame JSON.
+Writers emit a new LSHD chunk only when the map changes; each frame refers to
+the map in force with `"lshd_ref": id` in its per-frame JSON. Ids are unique
+within a file. A frame without `lshd_ref` has no lens-shading information.
 
 ## 5. AUDI
 
