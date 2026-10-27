@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+#
+# craw-pull [-n COUNT | --all] [--bursts] [--mount] [-o DIR]
+#
+# Copies RawLens .craw takes from the phone (adb, USB debugging on) to
+# ~/Movies/CRAW (or DIR): newest take by default, -n newest COUNT, --all for
+# every take. --bursts pulls DCIM/RawLens/Bursts instead. --mount mounts the
+# pulled takes for DaVinci Resolve (craw-mount --open).
+set -euo pipefail
+ADB="$(command -v adb || echo "$HOME/Library/Android/sdk/platform-tools/adb")"
+[[ -x "$ADB" ]] || { echo "adb not found (install Android platform-tools)" >&2; exit 1; }
+OUT="$HOME/Movies/CRAW"; count=1; remote="/sdcard/DCIM/RawLens"; mount_after=0
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -n) count="$2"; shift ;;
+        --all) count=0 ;;
+        --bursts) remote="/sdcard/DCIM/RawLens/Bursts" ;;
+        --mount) mount_after=1 ;;
+        -o) OUT="$2"; shift ;;
+        -h|--help) sed -n '3,10p' "$0"; exit 0 ;;
+        *) echo "unknown option $1" >&2; exit 2 ;;
+    esac
+    shift
+done
+"$ADB" get-state > /dev/null 2>&1 || { echo "no phone connected over adb" >&2; exit 1; }
+# Newest first; names only (no shell globbing on the phone, which errors when empty).
+list="$("$ADB" shell "cd '$remote' 2>/dev/null && ls -t 2>/dev/null" | tr -d '\r' | grep -iE '\.craw$' || true)"
+[[ -n "$list" ]] || { echo "no .craw takes in $remote on the phone (record a RAW video in RawLens first)" >&2; exit 1; }
+[[ "$count" == 0 ]] || list="$(head -n "$count" <<< "$list")"
+list="$(sed "s|^|$remote/|" <<< "$list")"
+mkdir -p "$OUT"
+pulled=()
+while IFS= read -r f; do
+    [[ -n "$f" ]] || continue
+    dest="$OUT/$(basename "$f")"
+    if [[ -f "$dest" ]] && [[ "$(stat -f %z "$dest")" == "$("$ADB" shell stat -c %s "$f" | tr -d '\r')" ]]; then
+        echo "have: $dest"
+    else
+        echo "pull: $f"
+        "$ADB" pull "$f" "$dest" > /dev/null
+    fi
+    pulled+=("$dest")
+done <<< "$list"
+if [[ $mount_after == 1 ]]; then
+    "$(dirname "$0")/craw-mount" --open "${pulled[@]}"
+fi

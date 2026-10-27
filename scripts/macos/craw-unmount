@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+#
+# craw-unmount [TAKE-NAME ...]     unmount the given takes (default: all)
+# Unmounts CinemaDNG folders created by craw-mount under ~/CRAW
+# ($CRAW_MOUNT_ROOT) and removes the empty mount folders.
+set -uo pipefail
+ROOT="${CRAW_MOUNT_ROOT:-$HOME/CRAW}"
+targets=()
+if [[ $# -eq 0 || "${1:-}" == "--all" ]]; then
+    while IFS= read -r mp; do targets+=("$mp"); done < <(mount | sed -n "s|.* on \($ROOT/[^ ]*\) .*|\1|p")
+else
+    for n in "$@"; do targets+=("$ROOT/$(basename "${n%.craw}")"); done
+fi
+[[ ${#targets[@]} -gt 0 ]] || { echo "nothing mounted under $ROOT"; exit 0; }
+rc=0
+for mp in "${targets[@]}"; do
+    if umount "$mp" 2> /dev/null || diskutil unmount force "$mp" > /dev/null 2>&1; then
+        rmdir "$mp" 2> /dev/null || true
+        echo "unmounted: $mp"
+    else
+        echo "could not unmount $mp (close it in Resolve/Finder first)" >&2; rc=1
+    fi
+done
+exit $rc

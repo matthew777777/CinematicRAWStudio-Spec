@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+#
+# craw-mount [--open] [--resolve] TAKE.craw|FOLDER ...
+#
+# Mounts each .craw take as a CinemaDNG folder (lossless, no copying) at
+#   ~/CRAW/<take>/<take>_000000.dng ... <take>.wav
+# ready to drag into DaVinci Resolve. Folders are searched for .craw files.
+#   --open      reveal the mounted folder(s) in Finder
+#   --resolve   also launch DaVinci Resolve
+# Mount root: $CRAW_MOUNT_ROOT (default ~/CRAW). Unmount with craw-unmount.
+set -euo pipefail
+ROOT="${CRAW_MOUNT_ROOT:-$HOME/CRAW}"
+BIN="$(command -v craw_mount || echo "$HOME/.local/bin/craw_mount")"
+open_finder=0; open_resolve=0; takes=()
+for a in "$@"; do
+    case "$a" in
+        --open) open_finder=1 ;;
+        --resolve) open_resolve=1 ;;
+        -h|--help) sed -n '3,12p' "$0"; exit 0 ;;
+        *)
+            if [[ -d "$a" ]]; then
+                while IFS= read -r f; do takes+=("$f"); done < <(find "$a" -maxdepth 2 -iname '*.craw' -type f | sort)
+            else
+                takes+=("$a")
+            fi ;;
+    esac
+done
+[[ ${#takes[@]} -gt 0 ]] || { echo "usage: craw-mount [--open] [--resolve] TAKE.craw|FOLDER ..." >&2; exit 2; }
+[[ -x "$BIN" ]] || { echo "craw_mount not found; run install-macos.sh" >&2; exit 1; }
+[[ -e /usr/local/lib/libfuse-t.dylib || -e /Library/Frameworks/fuse_t.framework ]] || {
+    echo "fuse-t is not installed: brew install --cask macos-fuse-t/cask/fuse-t" >&2; exit 1; }
+
+mounted=()
+for take in "${takes[@]}"; do
+    [[ -f "$take" ]] || { echo "skip: $take (not a file)" >&2; continue; }
+    take="$(cd "$(dirname "$take")" && pwd)/$(basename "$take")"
+    stem="$(basename "${take%.*}")"
+    mp="$ROOT/$stem"
+    if mount | grep -q " on $mp "; then
+        echo "already mounted: $mp"
+        mounted+=("$mp"); continue
+    fi
+    mkdir -p "$mp"
+    "$BIN" "$mp" "$take" --flat > /dev/null
+    for _ in $(seq 1 50); do                # wait up to ~10 s for the volume
+        ls "$mp"/*.dng > /dev/null 2>&1 && break
+        sleep 0.2
+    done
+    if ls "$mp"/*.dng > /dev/null 2>&1; then
+        n=$(ls "$mp"/*.dng | wc -l | tr -d ' ')
+        echo "mounted: $mp  ($n DNG frames$( [[ -e "$mp/$stem.wav" ]] && echo ' + WAV'))"
+        mounted+=("$mp")
+    else
+        echo "failed to mount $take" >&2
+        umount "$mp" 2> /dev/null || true
+    fi
+done
+[[ ${#mounted[@]} -gt 0 ]] || exit 1
+if [[ $open_finder == 1 ]]; then open "${mounted[@]}"; fi
+if [[ $open_resolve == 1 ]]; then open -a "DaVinci Resolve" 2> /dev/null || echo "DaVinci Resolve not found" >&2; fi
