@@ -165,6 +165,36 @@
     "raw_size": 24576
   },
   {
+    "name": "rgb_live2_scene10",
+    "width": 128,
+    "height": 96,
+    "bit_depth": 10,
+    "cfa": 4,
+    "tile": 128,
+    "codec": 3,
+    "frame_crc": 0,
+    "pfor": 0,
+    "rice_init": 16,
+    "payload_sha256": "3887a6e92cc801ea27198185a37ea578accbb9c606339307985577a5054f32fa",
+    "payload_size": 8565,
+    "raw_size": 24576
+  },
+  {
+    "name": "rgb_live_scene10_tile20",
+    "width": 128,
+    "height": 96,
+    "bit_depth": 10,
+    "cfa": 4,
+    "tile": 20,
+    "codec": 2,
+    "frame_crc": 1,
+    "pfor": 0,
+    "rice_init": 16,
+    "payload_sha256": "31d884f2a615b1756ea3f6d5eca745fb2a3c103d935193c5432d700976a04b07",
+    "payload_size": 9599,
+    "raw_size": 24576
+  },
+  {
     "name": "live2pfor_noise12_tile20",
     "width": 56,
     "height": 40,

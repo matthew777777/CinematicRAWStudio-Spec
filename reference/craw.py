@@ -22,7 +22,20 @@ CFA_LAYOUT = {
     2: (0, 3, 2, 1),  # GBRG
     3: (1, 2, 3, 0),  # BGGR
 }
-CFA_NAMES = {"RGGB": 0, "GRBG": 1, "GBRG": 2, "BGGR": 3}
+CFA_NAMES = {"RGGB": 0, "GRBG": 1, "GBRG": 2, "BGGR": 3, "RGB": 4}
+CFA_RGB = 4  # SPEC 3.8: cells (0,0)=R, (0,1)=G, (1,0)=B, (1,1)=0
+
+
+def rgb_to_cells(rgb: np.ndarray) -> np.ndarray:
+    """(H, W, 3) RGB -> (2H, 2W) cell frame for cfa = 4."""
+    h, w, _ = rgb.shape
+    out = np.zeros((2 * h, 2 * w), np.uint16)
+    out[0::2, 0::2], out[0::2, 1::2], out[1::2, 0::2] = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    return out
+
+
+def cells_to_rgb(cells: np.ndarray) -> np.ndarray:
+    return np.stack([cells[0::2, 0::2], cells[0::2, 1::2], cells[1::2, 0::2]], -1)
 
 RICE_LIMIT = 24
 ESCAPE_BITS = 24
@@ -390,12 +403,17 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
     h, w = raw.shape
     if w % 2 or h % 2:
         raise ValueError("width and height must be even")
+    if cfa == CFA_RGB and codec not in (2, 3):
+        raise ValueError("RGB frames (cfa 4) need codec 2 or 3")
+    if cfa == CFA_RGB and raw[1::2, 1::2].any():
+        raise ValueError("RGB frames: the unused cell must be zero")
     if int(raw.max(initial=0)) >= 1 << bit_depth:
         raise ValueError("sample exceeds bit depth")
     if rice_init is None:
         rice_init = default_rice_init(bit_depth)
     planes = split_planes(raw)
-    g1i, g2i, ri, bi = CFA_LAYOUT[cfa]
+    # Codec 1 reorders planes by colour; codecs 2/3 code cells by position.
+    g1i, g2i, ri, bi = CFA_LAYOUT[cfa] if cfa in CFA_LAYOUT else (0, 1, 2, 3)
     ordered = [planes[g1i], planes[g2i], planes[ri], planes[bi]]
     g1 = ordered[0].astype(np.int64)
     coded = [g1] + [o.astype(np.int64) - g1 for o in ordered[1:]]

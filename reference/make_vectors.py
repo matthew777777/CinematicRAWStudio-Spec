@@ -32,6 +32,9 @@ def cases():
     yield "live2_noise12_tile20", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 3
     yield "live2_edges16_tile5", np.where(rng.random((22, 34)) < 0.5, 0, 65535).astype(np.uint16), 16, 3, 5, 3
     yield "live2pfor_scene10_gbrg", scene, 10, 2, 128, 3, False, True
+    rgb = np.stack([scene[0::2, 0::2], (scene[0::2, 1::2] // 2 + scene[1::2, 0::2] // 2), scene[1::2, 1::2]], -1)
+    yield "rgb_live2_scene10", craw.rgb_to_cells(rgb), 10, 4, 128, 3, False
+    yield "rgb_live_scene10_tile20", craw.rgb_to_cells(rgb), 10, 4, 20, 2
     yield "live2pfor_noise12_tile20", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 3, True, True
     yield "live_nocrc10_rggb", scene[:, :64], 10, 0, 128, 2, False
     yield "live_noise12_tile20", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 2

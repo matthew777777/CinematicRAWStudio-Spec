@@ -129,7 +129,7 @@ u8[]          codec payload (§3.1), to end of chunk
 ```
 u8   codec_id = 1
 u8   bit_depth        1..16; every sample < 2^bit_depth
-u8   cfa              0 RGGB, 1 GRBG, 2 GBRG, 3 BGGR
+u8   cfa              0 RGGB, 1 GRBG, 2 GBRG, 3 BGGR, 4 RGB cells (§3.8)
 u8   flags            bit 0: frame CRC omitted; other bits reserved (zero)
 u32  width            even
 u32  height           even
@@ -300,6 +300,21 @@ byte-aligned. A sample's residual is `low | high << k` for listed indices and
 Encoders choose the form; any choice decodes. The reference encoder emits
 patched blocks only on request (they save 0.2-0.5 % on real footage for
 about twice the encode time) and otherwise always emits the plain form.
+
+### 3.8 RGB frames (cfa = 4)
+
+A frame may carry a demosaiced RGB image instead of a colour mosaic, e.g.
+for binned recording, where a half-resolution mosaic would have to be
+demosaiced a second time and show colour fringes. An RGB image of
+`W x H` pixels is stored as a cell frame of `width = 2W`, `height = 2H`:
+cell `(0,0)` holds R, `(0,1)` G, `(1,0)` B and `(1,1)` is unused and must be
+zero. Sample values, `bit_depth`, black and white levels have the same
+meaning as for the sensor mosaic (black-level offset included).
+
+Only codecs 2 and 3 may carry `cfa = 4` (they code each cell position as an
+independent plane; the all-zero cell costs one width nibble per block).
+Readers present the frame as `W x H` RGB; DNG export uses
+PhotometricInterpretation LinearRaw (34892) with three samples per pixel.
 
 ---
 
