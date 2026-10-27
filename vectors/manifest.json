@@ -1,0 +1,74 @@
+[
+  {
+    "name": "flat10_rggb",
+    "width": 48,
+    "height": 32,
+    "bit_depth": 10,
+    "cfa": 0,
+    "tile": 128,
+    "rice_init": 16,
+    "payload_sha256": "0c810ce4497ee7e14a130c32d1f6a5c4259e052651a5dc5e38b2cb5e09720718",
+    "payload_size": 321,
+    "raw_size": 3072
+  },
+  {
+    "name": "gradient10_grbg",
+    "width": 128,
+    "height": 96,
+    "bit_depth": 10,
+    "cfa": 1,
+    "tile": 128,
+    "rice_init": 16,
+    "payload_sha256": "53499a57926c4e759e5b2ddb64730043db7468de491b05046ff7bfd8ca5861db",
+    "payload_size": 5276,
+    "raw_size": 24576
+  },
+  {
+    "name": "noise12_gbrg",
+    "width": 80,
+    "height": 64,
+    "bit_depth": 12,
+    "cfa": 2,
+    "tile": 128,
+    "rice_init": 64,
+    "payload_sha256": "0de578c32a185f78f1c9e595ac342f2a245ba5440e0d36a2c35e2ca67c90798c",
+    "payload_size": 8838,
+    "raw_size": 10240
+  },
+  {
+    "name": "scene10_bggr_tile16",
+    "width": 128,
+    "height": 96,
+    "bit_depth": 10,
+    "cfa": 3,
+    "tile": 16,
+    "rice_init": 16,
+    "payload_sha256": "1ef215fc3e08bba68e5d9cb60912d85346587c60b37d90f527cba2d42f1859b9",
+    "payload_size": 9766,
+    "raw_size": 24576
+  },
+  {
+    "name": "edges_tile5",
+    "width": 34,
+    "height": 22,
+    "bit_depth": 16,
+    "cfa": 0,
+    "tile": 5,
+    "rice_init": 1024,
+    "payload_sha256": "ebe58c5eb3aeb913dba04444cc99132bbe79405a26cc4d8a0f463a8a09a4c826",
+    "payload_size": 1584,
+    "raw_size": 1496
+  },
+  {
+    "name": "scene14_rggb_tile32",
+    "width": 128,
+    "height": 96,
+    "bit_depth": 14,
+    "cfa": 0,
+    "tile": 32,
+    "rice_init": 256,
+    "payload_sha256": "530c00451bcc379cce6b649c9a8edb08d9a2bc437b84b1a8e34181fe957576c6",
+    "payload_size": 15872,
+    "raw_size": 24576
+  }
+]
