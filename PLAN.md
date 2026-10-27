@@ -2,14 +2,27 @@
 
 | # | Milestone | Status |
 |---|-----------|--------|
-| 1 | Repos (Spec / Encoder / Decoder), Apache-2.0, C++20, CMake, NDK arm64 builds, device harness | done |
-| 2 | Python reference codec + golden vectors; benchmark on real phone RAW vs JPEG XL and .mcraw type 7 | reference done; **needs real frames** |
-| 3 | Spec v0.9 freeze | |
-| 4 | C++ encoder / clean-room decoder bit-exact vs reference | done (scalar) |
-| 5 | Speed: NEON + branchless k/bit I/O, target ≥ 374 MPix/s sustained (4080×3060@30) on big cores; fuzzing in CI | next |
-| 6 | Android Camera2 capture module + instrumented tests (RAW_SENSOR, audio, gyro/accel, LENS_DISTORTION, intrinsics, pose, lens shading map, noise profile) | |
-| 7 | DaVinci Resolve: CinemaDNG virtual mount (macFUSE/FSKit, WinFsp, FUSE) + `craw2dng` / `craw2cinemadng` | |
-| 8 | CRAW-Max (rANS, codec id 2), run mode, THMB, spec v1.0 | |
+| 1 | Repos (Spec / Encoder / Decoder), Apache-2.0, C++20, CMake, NDK arm64 + armv7 builds, device harness | done |
+| 2 | Python reference + golden vectors; real-footage benchmark vs .mcraw type 7 | done: −23 % (binned) / −14 % (full-res) vs type 7; JPEG XL comparison pending (cjxl not installed) |
+| 3 | Spec v0.2: block-adaptive Rice (per-pixel adaptive v0.1 was serial-bound on phones) | done, draft |
+| 4 | C++ encoder / clean-room decoder bit-exact vs reference | done |
+| 5 | Speed: NEON extract/MED/block sums, branchless bit writer, parallel CRC, zero-copy commit | in progress (numbers below) |
+| 6 | RawLens integration: CRS replaced by .CRAW (JNI, recorder, burst, reader), on-device round-trip test | done; real Camera2 recording run pending |
+| 7 | DaVinci Resolve: CinemaDNG virtual mount + `craw2dng` / `craw2cinemadng` | |
+| 8 | CRAW-Max (rANS, codec id 2), run mode, THMB, LSHD chunk from recorder, F32 audio, spec v1.0 | |
+
+## Measured on MT6878 (Xiaomi 25080RABDG), 12-bit 4080×3060
+
+| path | MPix/s | fps 4080×3060 | fps UHD |
+|------|--------|---------------|---------|
+| craw_bench, 8 threads, intra-frame | ~650 | ~52 | ~78 |
+| RawLens JNI, 4 frame workers, incl. storage | 504 | 40.4 | 60.7 |
+| RawLens JNI, 8 frame workers, incl. storage | 539 | 43.2 | 65.0 |
+
+Goal "4K 12-bit ≥ 60 fps": met for UHD 3840×2160 on the app path. Full
+4080×3060 @ 60 needs 749 MPix/s and ~485 MB/s sustained storage (device
+measures ~563 MB/s with fsync), so it is compute- and near storage-bound.
+Next levers: thread pinning to big cores, NEON bit emission, decoder threads.
 
 ## Audio (phase 6)
 Capture `ENCODING_PCM_FLOAT` (no digital clipping) stored as `AUDI` format 2;
