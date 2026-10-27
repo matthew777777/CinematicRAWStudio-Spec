@@ -21,6 +21,14 @@ class RoundTrip(unittest.TestCase):
                 np.testing.assert_array_equal(back, raw)
                 self.assertEqual(info["cfa"], cfa)
 
+    def test_live_codec_all_cfa_and_depths(self):
+        rng = np.random.default_rng(2)
+        for bits in (8, 10, 12, 16):
+            for cfa in range(4):
+                raw = rng.integers(0, 1 << bits, (18, 38), dtype=np.uint16)
+                back, info = craw.decode_frame(craw.encode_frame(raw, bits, cfa, tile=13, codec=2))
+                np.testing.assert_array_equal(back, raw)
+
     def test_rejects_out_of_range(self):
         with self.assertRaises(ValueError):
             craw.encode_frame(np.full((4, 4), 1024, np.uint16), 10, 0)

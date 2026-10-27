@@ -196,12 +196,83 @@ def _decode_plane(br, w, h, first_pred, rice_init):
     return p
 
 
+# ---------------------------------------------------------- codec 2: CRAW-Live
+
+def _live_residuals(p, first_pred):
+    """CRAW-Live prediction (SPEC 3.6): left neighbour in the plane; the first
+    sample of a row uses the sample above (first_pred for the very first)."""
+    out = []
+    for y, row in enumerate(p):
+        prev = first_pred if y == 0 else p[y - 1][0]
+        r = []
+        for v in row:
+            e = v - prev
+            r.append(2 * e if e >= 0 else -2 * e - 1)
+            prev = v
+        out.append(r)
+    return out
+
+
+def _live_encode_row(widths, data, p, y, first_pred):
+    """Fixed-width packing per 16-sample block of plane row y (SPEC 3.6)."""
+    prev = first_pred if y == 0 else p[y - 1][0]
+    row = []
+    for v in p[y]:
+        e = v - prev
+        row.append(2 * e if e >= 0 else -2 * e - 1)
+        prev = v
+    if True:
+        for x0 in range(0, len(row), BLOCK):
+            blk = row[x0:x0 + BLOCK]
+            w = max(blk).bit_length()
+            if w < 15:
+                widths.append(w)
+            else:
+                widths.extend([15, w - 15])
+            acc, n = 0, 0
+            for v in blk:
+                acc |= v << n
+                n += w
+            data.extend(acc.to_bytes((n + 7) // 8, "little") if n else b"")
+
+
+def _live_decode_row(nibbles, data, pos, p, y, w_, first_pred):
+    if True:
+        prev = first_pred if y == 0 else p[y - 1][0]
+        for x0 in range(0, w_, BLOCK):
+            n = min(BLOCK, w_ - x0)
+            w = next(nibbles)
+            if w == 15:
+                w = 15 + next(nibbles)
+            nbytes = (n * w + 7) // 8
+            acc = int.from_bytes(data[pos:pos + nbytes], "little")
+            pos += nbytes
+            for i in range(n):
+                u = (acc >> (i * w)) & ((1 << w) - 1)
+                prev = prev + (u >> 1 if u & 1 == 0 else -((u + 1) >> 1))
+                p[y][x0 + i] = prev
+    return pos
+
+
+def _pack_nibbles(ns):
+    out = bytearray((len(ns) + 1) // 2)
+    for i, v in enumerate(ns):
+        out[i // 2] |= v << (4 * (i & 1))
+    return bytes(out)
+
+
+def _iter_nibbles(b):
+    for byte in b:
+        yield byte & 15
+        yield byte >> 4
+
+
 def split_planes(raw):
     return [raw[py::2, px::2] for py in (0, 1) for px in (0, 1)]
 
 
 def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
-                 rice_init: int | None = None) -> bytes:
+                 rice_init: int | None = None, codec: int = 1, frame_crc: bool = True) -> bytes:
     """Encodes a (H, W) uint16 Bayer frame into a codec payload (SPEC 3.1)."""
     raw = np.ascontiguousarray(raw, dtype=np.uint16)
     h, w = raw.shape
@@ -220,33 +291,44 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
     tiles = []
     for ty in range(0, ph, tile):
         for tx in range(0, pw, tile):
-            bw = BitWriter()
-            for i, plane in enumerate(coded):
-                sub = plane[ty:ty + tile, tx:tx + tile].tolist()
-                first = 1 << (bit_depth - 1) if i == 0 else 0
-                _encode_plane(bw, sub, first, rice_init)
-            body = bw.finish()
+            if codec == 2:
+                # Rows of the tile, then cells (py, px) in order; no colour transform.
+                widths, data = [], bytearray()
+                subs = [pl[ty:ty + tile, tx:tx + tile].astype(np.int64).tolist() for pl in planes]
+                for y in range(len(subs[0])):
+                    for cell in range(4):
+                        _live_encode_row(widths, data, subs[cell], y, 1 << (bit_depth - 1))
+                nib = _pack_nibbles(widths)
+                body = struct.pack("<I", len(nib)) + nib + bytes(data)
+            else:
+                bw = BitWriter()
+                for i, plane in enumerate(coded):
+                    sub = plane[ty:ty + tile, tx:tx + tile].tolist()
+                    first = 1 << (bit_depth - 1) if i == 0 else 0
+                    _encode_plane(bw, sub, first, rice_init)
+                body = bw.finish()
             stored = b"".join(o[ty:ty + tile, tx:tx + tile].astype("<u2").tobytes()
-                              for o in ordered)
+                              for o in (planes if codec == 2 else ordered))
             tiles.append(b"\0" + body if len(body) < len(stored) else b"\1" + stored)
     offsets = [0]
     for t in tiles:
         offsets.append(offsets[-1] + len(t))
-    head = struct.pack("<BBBBIIHHII", 1, bit_depth, cfa, 0, w, h, tile, rice_init,
-                       crc32c(raw.astype("<u2").tobytes()), len(tiles))
+    head = struct.pack("<BBBBIIHHII", codec, bit_depth, cfa, 0 if frame_crc else 1, w, h, tile, rice_init,
+                       crc32c(raw.astype("<u2").tobytes()) if frame_crc else 0, len(tiles))
     return head + struct.pack(f"<{len(offsets)}I", *offsets) + b"".join(tiles)
 
 
 def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
-    codec, bit_depth, cfa, _, w, h, tile, rice_init, crc, count = \
+    codec, bit_depth, cfa, flags, w, h, tile, rice_init, crc, count = \
         struct.unpack_from("<BBBBIIHHII", payload, 0)
-    if codec != 1:
+    if codec not in (1, 2):
         raise ValueError(f"unknown codec {codec}")
     pos = 24
     offsets = struct.unpack_from(f"<{count + 1}I", payload, pos)
     base = pos + 4 * (count + 1)
     pw, ph = w // 2, h // 2
     ordered = [np.zeros((ph, pw), np.int64) for _ in range(4)]
+    live = [[np.zeros((ph, pw), np.int64) for _ in range(2)] for _ in range(2)]
     t = 0
     for ty in range(0, ph, tile):
         for tx in range(0, pw, tile):
@@ -255,7 +337,20 @@ def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
             if data[0] == 1:
                 vals = np.frombuffer(data[1:], "<u2").astype(np.int64).reshape(4, th, tw)
                 for i in range(4):
-                    ordered[i][ty:ty + th, tx:tx + tw] = vals[i]
+                    if codec == 2:
+                        live[i >> 1][i & 1][ty:ty + th, tx:tx + tw] = vals[i]
+                    else:
+                        ordered[i][ty:ty + th, tx:tx + tw] = vals[i]
+            elif codec == 2:
+                (nlen,) = struct.unpack_from("<I", data, 1)
+                nibbles = _iter_nibbles(data[5:5 + nlen])
+                body, pos = data[5 + nlen:], 0
+                cells = [[[0] * tw for _ in range(th)] for _ in range(4)]
+                for y in range(th):
+                    for cell in range(4):
+                        pos = _live_decode_row(nibbles, body, pos, cells[cell], y, tw, 1 << (bit_depth - 1))
+                for cell in range(4):
+                    live[cell >> 1][cell & 1][ty:ty + th, tx:tx + tw] = np.array(cells[cell])
             else:
                 br = BitReader(data[1:])
                 planes = []
@@ -267,10 +362,15 @@ def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
                     ordered[i][ty:ty + th, tx:tx + tw] = planes[i] + planes[0]
             t += 1
     raw = np.zeros((h, w), np.uint16)
-    g1i, g2i, ri, bi = CFA_LAYOUT[cfa]
-    for plane, pos_i in zip(ordered, (g1i, g2i, ri, bi)):
-        raw[pos_i // 2::2, pos_i % 2::2] = plane
-    if crc32c(raw.astype("<u2").tobytes()) != crc:
+    if codec == 2:
+        for py in (0, 1):
+            for px in (0, 1):
+                raw[py::2, px::2] = live[py][px]
+    else:
+        g1i, g2i, ri, bi = CFA_LAYOUT[cfa]
+        for plane, pos_i in zip(ordered, (g1i, g2i, ri, bi)):
+            raw[pos_i // 2::2, pos_i % 2::2] = plane
+    if not (flags & 1) and crc32c(raw.astype("<u2").tobytes()) != crc:
         raise ValueError("frame CRC mismatch")
     return raw, {"bit_depth": bit_depth, "cfa": cfa, "tile": tile, "rice_init": rice_init}
 
