@@ -92,6 +92,18 @@ craw unmount
 This closes all takes opened with `craw mount`. It does not delete your
 original recordings. `craw mounts` lists the currently mounted takes.
 
+A take keeps the same folder (`~/CRAW/<take name>`) every time you mount it,
+so Resolve relinks its clips after a remount.
+
+### Stabilise in Gyroflow
+
+Takes with motion data show `<take>.gcsv` next to the DNGs (in the mount and
+in `craw export` output): the phone's gyroscope and accelerometer on the same
+clock as the frames. Open the take's DNG sequence in
+[Gyroflow](https://gyroflow.xyz) 1.7 or newer; it picks up the `.gcsv` with
+the same name. If the correction turns the wrong way, set *Motion data → IMU
+orientation* once — the same setting fits every take from that phone.
+
 ## Prefer normal files?
 
 ```sh
