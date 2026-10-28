@@ -395,6 +395,79 @@ def split_planes(raw):
     return [raw[py::2, px::2] for py in (0, 1) for px in (0, 1)]
 
 
+# ------------------------------------------------- codec 4: Desktop Compact
+
+def _compact_pred(p, x, y, first, mode):
+    if not y:
+        return p[y][x - 1] if x else first
+    if not x:
+        return p[y - 1][0]
+    L, U, UL = p[y][x - 1], p[y - 1][x], p[y - 1][x - 1]
+    UR = p[y - 1][min(x + 1, len(p[0]) - 1)]
+    if mode == 1:
+        return _med(L, U, UL)
+    if mode == 2:
+        return (L + U + 1) >> 1
+    if mode == 3:
+        return (2 * L + U + UR + 2) >> 2
+    return (L + U + UL + UR + 2) >> 2
+
+
+def _compact_encode(subs, first):
+    best = None
+    for mode in range(4):
+        blocks, ks, cost = [], [], 0
+        for p in subs:
+            for y, row in enumerate(p):
+                u = []
+                for x, v in enumerate(row):
+                    e = v - _compact_pred(p, x, y, first, mode)
+                    u.append(2 * e if e >= 0 else -2 * e - 1)
+                for x in range(0, len(row), 16):
+                    b = u[x:x + 16]
+                    costs = [sum((v >> k) + 1 + k if (v >> k) < 24 else 49 for v in b) for k in range(16)]
+                    k = min(range(16), key=lambda k: costs[k])
+                    blocks.append(b)
+                    ks.append(k)
+                    cost += costs[k]
+        if best is None or cost < best[0]:
+            best = cost, mode, blocks, ks
+    _, mode, blocks, ks = best
+    bw = BitWriter()
+    for b, k in zip(blocks, ks):
+        for u in b:
+            q = u >> k
+            if q < 24:
+                bw.put(1, q + 1)
+                bw.put(u, k)
+            else:
+                bw.put(1, 25)
+                bw.put(u, 24)
+    return bytes([mode]) + _pack_nibbles(ks) + bw.finish()
+
+
+def _compact_decode(data, tw, th, first):
+    mode = data[1]
+    if mode > 3:
+        raise ValueError("bad compact predictor")
+    nb = (4 * th * ((tw + 15) // 16) + 1) // 2
+    ks = _iter_nibbles(data[2:2 + nb])
+    br = BitReader(data[2 + nb:])
+    cells = [[[0] * tw for _ in range(th)] for _ in range(4)]
+    for p in cells:
+        for y in range(th):
+            for x0 in range(0, tw, 16):
+                k = next(ks)
+                for x in range(x0, min(x0 + 16, tw)):
+                    q = br.zeros_then_one(24)
+                    u = br.get(24) if q == 24 else (q << k) | br.get(k)
+                    v = _compact_pred(p, x, y, first, mode) + _unzigzag(u)
+                    if not 0 <= v <= 65535:
+                        raise ValueError("compact sample out of range")
+                    p[y][x] = v
+    return cells
+
+
 def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
                  rice_init: int | None = None, codec: int = 1, frame_crc: bool = True,
                  pfor: bool = False) -> bytes:
@@ -403,8 +476,8 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
     h, w = raw.shape
     if w % 2 or h % 2:
         raise ValueError("width and height must be even")
-    if cfa == CFA_RGB and codec not in (2, 3):
-        raise ValueError("RGB frames (cfa 4) need codec 2 or 3")
+    if cfa == CFA_RGB and codec not in (2, 3, 4):
+        raise ValueError("RGB frames (cfa 4) need codec 2, 3 or 4")
     if cfa == CFA_RGB and raw[1::2, 1::2].any():
         raise ValueError("RGB frames: the unused cell must be zero")
     if int(raw.max(initial=0)) >= 1 << bit_depth:
@@ -412,7 +485,7 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
     if rice_init is None:
         rice_init = default_rice_init(bit_depth)
     planes = split_planes(raw)
-    # Codec 1 reorders planes by colour; codecs 2/3 code cells by position.
+    # Codec 1 reorders planes by colour; codecs 2/3/4 code cells by position.
     g1i, g2i, ri, bi = CFA_LAYOUT[cfa] if cfa in CFA_LAYOUT else (0, 1, 2, 3)
     ordered = [planes[g1i], planes[g2i], planes[ri], planes[bi]]
     g1 = ordered[0].astype(np.int64)
@@ -421,7 +494,10 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
     tiles = []
     for ty in range(0, ph, tile):
         for tx in range(0, pw, tile):
-            if codec == 3:
+            if codec == 4:
+                subs = [pl[ty:ty + tile, tx:tx + tile].astype(np.int64).tolist() for pl in planes]
+                body = _compact_encode(subs, 1 << (bit_depth - 1))
+            elif codec == 3:
                 nib, data = [], bytearray()
                 subs = [pl[ty:ty + tile, tx:tx + tile].astype(np.int64).tolist() for pl in planes]
                 first = 1 << (bit_depth - 1)
@@ -452,7 +528,7 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
                     _encode_plane(bw, sub, first, rice_init)
                 body = bw.finish()
             stored = b"".join(o[ty:ty + tile, tx:tx + tile].astype("<u2").tobytes()
-                              for o in (planes if codec in (2, 3) else ordered))
+                              for o in (planes if codec in (2, 3, 4) else ordered))
             tiles.append(b"\0" + body if len(body) < len(stored) else b"\1" + stored)
     offsets = [0]
     for t in tiles:
@@ -465,7 +541,7 @@ def encode_frame(raw: np.ndarray, bit_depth: int, cfa: int, tile: int = 128,
 def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
     codec, bit_depth, cfa, flags, w, h, tile, rice_init, crc, count = \
         struct.unpack_from("<BBBBIIHHII", payload, 0)
-    if codec not in (1, 2, 3):
+    if codec not in (1, 2, 3, 4):
         raise ValueError(f"unknown codec {codec}")
     pos = 24
     offsets = struct.unpack_from(f"<{count + 1}I", payload, pos)
@@ -481,10 +557,14 @@ def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
             if data[0] == 1:
                 vals = np.frombuffer(data[1:], "<u2").astype(np.int64).reshape(4, th, tw)
                 for i in range(4):
-                    if codec in (2, 3):
+                    if codec in (2, 3, 4):
                         live[i >> 1][i & 1][ty:ty + th, tx:tx + tw] = vals[i]
                     else:
                         ordered[i][ty:ty + th, tx:tx + tw] = vals[i]
+            elif codec == 4:
+                cells = _compact_decode(data, tw, th, 1 << (bit_depth - 1))
+                for cell in range(4):
+                    live[cell >> 1][cell & 1][ty:ty + th, tx:tx + tw] = np.array(cells[cell])
             elif codec == 3:
                 (nlen,) = struct.unpack_from("<I", data, 1)
                 nibbles = _iter_nibbles(data[5:5 + nlen])
@@ -520,7 +600,7 @@ def decode_frame(payload: bytes) -> tuple[np.ndarray, dict]:
                     ordered[i][ty:ty + th, tx:tx + tw] = planes[i] + planes[0]
             t += 1
     raw = np.zeros((h, w), np.uint16)
-    if codec in (2, 3):
+    if codec in (2, 3, 4):
         for py in (0, 1):
             for px in (0, 1):
                 raw[py::2, px::2] = live[py][px]

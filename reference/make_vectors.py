@@ -49,6 +49,27 @@ def cases():
     yield "live_zero_width", np.full((18, 70), 512, np.uint16), 10, 0, 32, 2
     yield "fast_nocrc10", scene, 10, 0, 32, 1, False
 
+    # Compact: predictor selection, short blocks, all bit depths and CFA/RGB.
+    yield "compact_scene10", scene, 10, 2, 32, 4
+    yield "compact_noise12", rng.integers(0, 4096, (40, 56), dtype=np.uint16), 12, 1, 20, 4
+    yield "compact_edges16", np.where(rng.random((22, 34)) < 0.5, 0, 65535).astype(np.uint16), 16, 3, 5, 4
+    yield "compact_rgb", craw.rgb_to_cells(rgb), 10, 4, 20, 4, False
+    yield "compact_flat", np.full((18, 70), 512, np.uint16), 10, 0, 32, 4
+    for bits in (1, 14, 15, 16):
+        yield f"compact_bits{bits}", np.full((18, 70), (1 << bits) - 1, np.uint16), bits, bits % 4, 32, 4
+
+
+    for mode in (1, 2, 3):
+        p = [[512] * 36 for _ in range(20)]
+        for y in range(20):
+            for x in range(36):
+                p[y][x] = (128 + ((x * 17 + y * 29) % 512)) if not x or not y else craw._compact_pred(p, x, y, 512, mode)
+        cells = np.repeat(np.repeat(np.array(p, dtype=np.uint16), 2, 0), 2, 1)
+        yield f"compact_predictor{mode}", cells, 10, mode, 128, 4
+    escape = np.full((18, 70), 32768, np.uint16)
+    escape[8, 24] = 65535
+    yield "compact_escape16", escape, 16, 0, 32, 4
+
 
 def main(out_dir):
     out = pathlib.Path(out_dir)

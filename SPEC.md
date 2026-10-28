@@ -311,10 +311,70 @@ cell `(0,0)` holds R, `(0,1)` G, `(1,0)` B and `(1,1)` is unused and must be
 zero. Sample values, `bit_depth`, black and white levels have the same
 meaning as for the sensor mosaic (black-level offset included).
 
-Only codecs 2 and 3 may carry `cfa = 4` (they code each cell position as an
-independent plane; the all-zero cell costs one width nibble per block).
+Codecs 2, 3 and 4 may carry `cfa = 4` (they code each cell position as an
+independent plane).
 Readers present the frame as `W x H` RGB; DNG export uses
 PhotometricInterpretation LinearRaw (34892) with three samples per pixel.
+
+### 3.9 CRAW-Compact (codec id 4; desktop)
+
+Uses the common frame header, tile geometry and offset table (§3.1) with
+`codec_id = 4`. `rice_init` is unused. Raw frame CRC and flag bit 0 have the
+same meaning as codecs 1–3. Bayer and RGB cells are supported. Every tile is
+independent; four planes are in cell position order `(0,0),(0,1),(1,0),(1,1)`.
+No colour difference transform is applied. Codec 4 targets offline compaction;
+it is not a real-time recording codec.
+
+Stored tile: `u8 mode=1`, followed by four planes of `tw*th` little-endian
+u16 samples. This is identical to stored Live tiles in cell order.
+
+Coded tile:
+
+```
+u8 mode = 0
+u8 predictor = 0..3
+u8 k_nibbles[ceil(block_count/2)]
+u8 rice_bits[]
+```
+
+`block_count = 4 * th * ceil(tw/16)`. Iterate plane, then row, then blocks
+of up to 16 samples, left to right; blocks never cross rows. One `k` nibble
+(0..15) per block, low nibble first in each byte. No escaped nibble values.
+Rice codewords follow this same sample order in a single MSB-first bitstream,
+with zero padding only at the end of the tile. There is no block alignment.
+
+For every plane, predict the top-left sample as `1 << (bit_depth-1)`, other
+top-row samples as left, and other left-column samples as up. Interior
+prediction uses original/reconstructed samples `L,U,UL,UR`; at the right edge,
+replace `UR` by `U`:
+
+| predictor | interior prediction |
+|-----------|---------------------|
+| 0 | `(L + U + UL + UR + 2) >> 2` |
+| 1 | MED from §3.4 |
+| 2 | `(L + U + 1) >> 1` |
+| 3 | `(2*L + U + UR + 2) >> 2` |
+
+All sums use at least 32 bits. Zigzag the signed residual as in §3.4.
+Let `q = u >> k`. For `q < 24`, write `q` zero bits, one bit, then the low
+`k` bits of `u` (MSB first). Otherwise write 24 zeros, one bit, then `u` in
+24 bits (not just its remainder). This is the same escape syntax as codec 1.
+Decoders reject unknown tile modes/predictors, truncation and reconstructed
+samples outside the declared bit depth; RGB's unused cell remains zero.
+
+Canonical encoder: for each predictor and block, minimize the exact sum of
+codeword lengths over all `k` in 0..15, including 49-bit escapes. Break ties
+in favour of the smallest `k`. Select the predictor minimizing the tile's
+summed codeword lengths, breaking ties in favour of the lowest predictor id.
+Use stored mode if coded size (including both header bytes, k nibbles and
+final padding) is greater than or equal to stored size. This deterministic
+choice is required for byte-identical conformance; decoders accept any legal
+choice. Existing codecs 1, 2 and 3 are unchanged.
+
+Desktop tools may mix codec ids per frame. `craw compact in.craw out.craw`
+retains an original frame payload when re-encoding would not reduce its
+size, preserves its frame record and all ancillary chunks, and builds a new
+index. This policy does not change codec 4's canonical encoder.
 
 ---
 
@@ -374,7 +434,7 @@ Lists every chunk except META and INDX, in file order.
 
 ## 8. Roadmap (non-normative)
 
-- codec id 2 "CRAW-Max": interleaved rANS with context modelling
+- Future codec id (unassigned): interleaved rANS with context modelling
 - run mode for flat / black tiles
 - near-lossless mode (bounded error, JPEG-LS style)
 - THMB generation guidance, BWF timecode export

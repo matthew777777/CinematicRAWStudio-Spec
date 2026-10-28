@@ -113,7 +113,7 @@ for part in Encoder Decoder TUI; do
     cmake -S "$repo" -B "$build" -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$prefix/.." "${options[@]}" >> "$build_log" 2>&1 || fail "Could not configure $part. Details: $build_log"
     case "$part" in
         Encoder) targets=(craw_enc craw_bench) ;;
-        Decoder) targets=(craw_dec craw2dng); [[ "$mount_tools" == OFF ]] || targets+=(craw_mount) ;;
+        Decoder) targets=(craw_dec craw2dng craw_compact); [[ "$mount_tools" == OFF ]] || targets+=(craw_mount) ;;
         TUI) targets=(craw-tui) ;;
     esac
     cmake --build "$build" --parallel "${CRAW_JOBS:-4}" --target "${targets[@]}" >> "$build_log" 2>&1 || fail "Could not build $part. Details: $build_log"

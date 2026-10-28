@@ -235,6 +235,9 @@ def main():
     p = commands.add_parser('export', help='Save CinemaDNG frames and WAV to a normal folder.')
     p.add_argument('take')
     p.add_argument('folder', nargs='?', default=str(Path.home() / 'Movies' / 'CRAW-Exports'))
+    p = commands.add_parser('compact', help='Losslessly compact a take on desktop (keeps the original).')
+    p.add_argument('take')
+    p.add_argument('output')
     for name in ('info', 'verify'):
         p = commands.add_parser(name, help='Show take details.' if name == 'info' else 'Check a take for corruption.')
         p.add_argument('take')
@@ -262,6 +265,8 @@ def main():
         unmount('all' if args.all else args.name)
     elif args.command == 'export':
         run([tool('craw2dng'), Path(args.take).expanduser().resolve(strict=True), Path(args.folder).expanduser()])
+    elif args.command == 'compact':
+        run([tool('craw_compact'), Path(args.take).expanduser().resolve(strict=True), Path(args.output).expanduser()])
     elif args.command == 'info':
         run([tool('craw-tui'), 'info', '-f', Path(args.take).expanduser().resolve(strict=True)])
     elif args.command == 'verify':

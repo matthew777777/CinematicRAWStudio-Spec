@@ -103,7 +103,7 @@ try {
         Invoke-Checked cmake $options
         $targets = switch ($part) {
             Encoder { @('craw_enc','craw_bench') }
-            Decoder { @('craw_dec','craw2dng'); if (-not $NoMount) { 'craw_mount' } }
+            Decoder { @('craw_dec','craw2dng','craw_compact'); if (-not $NoMount) { 'craw_mount' } }
             TUI { @('craw-tui') }
         }
         Invoke-Checked cmake (@('--build',$build,'--config','Release','--parallel','4','--target') + $targets)

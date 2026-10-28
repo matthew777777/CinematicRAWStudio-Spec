@@ -180,3 +180,21 @@ and exporters without a virtual filesystem. No tests run during installation.
 
 The installers build from source, so initial setup can take several minutes.
 Platform execution has not yet been verified for these installer changes.
+
+## Make a smaller archive copy
+
+After installing the updated tools:
+
+```sh
+craw compact in.craw out.craw
+craw verify out.craw
+craw mount out.craw
+```
+
+This lossless desktop operation preserves original RAW samples, frame metadata,
+audio, gyro, shading and other chunks. The original take stays in place. Choose
+a new output path; existing files are refused. Frames that do not become smaller
+keep their original payload. Open the output in the TUI or export CinemaDNG as
+usual. Compact takes decode more slowly than Live v2, and savings vary by scene.
+It requires a complete indexed input and an output filesystem supporting hard
+links. Recording on the phone continues to use Live v2.
