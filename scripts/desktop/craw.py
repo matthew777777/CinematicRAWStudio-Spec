@@ -57,6 +57,34 @@ def mounted(path):
     return path.is_dir() and (os.path.ismount(path) or any(path.glob('*.dng')))
 
 
+def forget_stale_mounts():
+    """Drop records of mounts that ended without craw unmount (Finder eject,
+    reboot, crash) and their empty folders, so they never block a path."""
+    for file, entry in records():
+        path = Path(entry['mount'])
+        if mounted(path):
+            continue
+        if path.exists() and not os.path.ismount(path):
+            try:
+                path.rmdir()  # only if empty: never delete the user's files
+            except OSError:
+                pass
+        file.unlink(missing_ok=True)
+
+
+def folder_free(path, take):
+    """True when `path` can host `take`: missing, or an empty unmounted folder
+    no other live record claims."""
+    for _, entry in records():
+        if entry['mount'] == str(path) and entry['take'] != str(take):
+            return False
+    if not path.exists():
+        return True
+    if os.path.ismount(path) or not path.is_dir():
+        return False
+    return not any(path.iterdir())
+
+
 def mount_take(take, open_folder=True):
     take = Path(take).expanduser().resolve(strict=True)
     if not take.is_file() or take.suffix.lower() != '.craw':
@@ -69,16 +97,21 @@ def mount_take(take, open_folder=True):
             return
     ROOT.mkdir(parents=True, exist_ok=True)
     STATE.mkdir(parents=True, exist_ok=True)
+    forget_stale_mounts()
     key = hashlib.sha256(str(take).encode()).hexdigest()[:12]
     stem = re.sub(r'[<>:"/\\|?*\x00-\x1f]', '_', take.stem).rstrip(' .')[:100] or 'take'
+    # The same take always mounts at the same path, so Resolve relinks by
+    # itself after an unmount/remount: ~/CRAW/<take name> unless another take
+    # holds that folder or it has the user's own files; then a name derived
+    # from the take's path, which is just as stable.
     destination = ROOT / stem
-    if destination.exists() or any(e['mount'] == str(destination) for _, e in records()):
+    if not folder_free(destination, take):
         destination = ROOT / (stem + '-' + key)
-    if destination.exists():
-        raise RuntimeError(f'Folder already exists: {destination}. Unmount it first or choose another CRAW_MOUNT_ROOT.')
+    if not folder_free(destination, take):
+        raise RuntimeError(f'Folder already in use: {destination}. Unmount it first or choose another CRAW_MOUNT_ROOT.')
     # WinFsp creates/removes its directory mount point itself.
     if not WINDOWS:
-        destination.mkdir()
+        destination.mkdir(exist_ok=True)  # an empty leftover folder is reused
     log_path = STATE / ('mount-' + key + '.log')
     kwargs = {'stdin': subprocess.DEVNULL}
     if WINDOWS:
