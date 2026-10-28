@@ -351,7 +351,16 @@ u8[3] reserved
 u32 count
 { i64 timestamp_ns; f32 x, y, z; } [count]   Android sensor coordinates
 ```
-Timestamps share the frame clock (`timestamp_source`).
+Timestamps share the frame clock (`timestamp_source`). Gyroscope and
+accelerometer use the same raw Android sensor axes; META records
+`"imuAxes": "android"`, `sensorOrientation` and `lensFacing` (`back` /
+`front`) so readers can map them to the image. Frame JSON may carry
+`rollingShutterSkew` (ns, first to last row).
+
+Compatibility: early RawLens takes without `imuAxes` but with
+`"gyroMapperVersion": 1` stored gyroscope samples rotated into a camera
+frame M = Rz(90 deg - sensorOrientation) * [[0,1,0],[1,0,0],[0,0,-1]] (x
+negated for front cameras); readers recover Android axes with M transposed.
 
 ## 7. INDX
 
