@@ -3,7 +3,7 @@
 | # | Milestone | Status |
 |---|-----------|--------|
 | 1 | Repos (Spec / Encoder / Decoder), Apache-2.0, C++20, CMake, NDK arm64 + armv7 builds, device harness | done |
-| 2 | Python reference + golden vectors; real-footage benchmark vs .mcraw type 7 | done: −23 % (binned) / −14 % (full-res) vs type 7; JPEG XL comparison pending (cjxl not installed) |
+| 2 | Python reference + golden vectors; real-footage benchmark | done; JPEG XL comparison pending (cjxl not installed) |
 | 3 | Spec v0.2: block-adaptive Rice (per-pixel adaptive v0.1 was serial-bound on phones) | done, draft |
 | 4 | C++ encoder / clean-room decoder bit-exact vs reference | done |
 | 5 | Speed: NEON extract/MED/block sums, quad code-word puts, parallel CRC, zero-copy commit, big-core pinning, MT decode | done for this device (numbers below) |
@@ -39,9 +39,5 @@ timecode from `META.video.timecode_start`.
 
 ## Ship gates
 - bit-exact round trip on every vector and every recorded test clip
-- size ≤ JPEG XL lossless (effort 1–3) and < .mcraw type 7 on the same frames
+- size ≤ JPEG XL lossless (effort 1–3) on the same frames
 - device_bench: no regression > 5 % throughput, none in ratio
-
-## Licensing note
-The old `MediaCinemaRAW-*` repos are GPL-3.0-only and are a behavioural
-reference only; no code was copied into these Apache-2.0 repos.

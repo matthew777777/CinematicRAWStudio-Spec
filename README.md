@@ -58,8 +58,8 @@ menu shortcut and Open With registration. Installers do not run tests.
 - Codec **CRAW-Fast** (v0.2): four CFA planes with green-difference
   prediction, MED predictor, block-adaptive Golomb-Rice (16-sample blocks,
   causal parameter — no side information), 128x128 independent tiles.
-- Measured: 3.6–5.0 bits/pixel on real phone footage (15–20 % smaller than
-  MotionCam type 7); encode 650–700 MPix/s on a MediaTek MT6878 phone
+- Measured: 3.6–5.0 bits/pixel on real phone footage; encode 650–700 MPix/s
+  on a MediaTek MT6878 phone
   (4080x3060 12-bit ≈ 52–56 fps), bit-exact round trip.
 
 Details: [SPEC.md](SPEC.md) · roadmap and measurements: [PLAN.md](PLAN.md).

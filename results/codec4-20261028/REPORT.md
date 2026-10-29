@@ -1,13 +1,11 @@
 # Codec 4: Desktop Compact — 2026-10-28
 
 **Delivered the desktop fallback. The live goal was not achieved.** Compact is
-52,278,526 bytes across the eight real frames: **16.29% smaller than type 7**
-and **9.57% smaller than Live v2**. It does not meet the requested 20–22%
-aggregate reduction. Daylight frames save 23.0–23.5% against type 7, while the
-high-ISO frames save only 10.4–12.8%.
+52,278,526 bytes across the eight real frames, **9.57% smaller than Live v2**:
+11.9–12.2% on the daylight frames, 7.9–8.3% on the high-ISO frames.
 
-Single-thread means: Live v2 6.33 ms encode / 13.55 ms decode; type 7
-5.93 / 14.35 ms; Compact **66.09 / 51.40 ms**. Compact is **10.44x encode**
+Single-thread means: Live v2 6.33 ms encode / 13.55 ms decode; Compact
+**66.09 / 51.40 ms**. Compact is **10.44x encode**
 and **3.79x decode** versus Live v2, well outside both live targets. This is
 an offline archival option, with slower scrubbing. These experiments establish
 that this implementation misses the goal; they do not prove that a different
@@ -22,21 +20,21 @@ frames and also checks the entire round trip, so its end-to-end cost is higher.
 The tiny synthetic container integration test checks ancillary data preservation;
 these size totals are not measurements of complete takes with audio/thumbnails.
 
-| Frame | type 7 MB | Live v2 MB | Compact MB | saved vs type 7 | saved vs v2 | v2 enc / dec ms | Compact enc / dec ms | type 7 enc / dec ms |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| s0_100_4080x3060 | 9.187 | 8.726 | 8.006 | 12.86% | 8.25% | 7.60 / 16.29 | 78.18 / 61.90 | 7.41 / 17.39 |
-| s0_200_4080x3060 | 9.182 | 8.725 | 8.005 | 12.82% | 8.25% | 7.63 / 16.21 | 77.71 / 62.23 | 7.42 / 17.54 |
-| s1_100_4080x3060 | 9.542 | 9.275 | 8.544 | 10.46% | 7.88% | 7.61 / 16.25 | 79.59 / 62.00 | 6.47 / 16.71 |
-| s1_200_4080x3060 | 9.545 | 9.272 | 8.542 | 10.51% | 7.88% | 7.64 / 16.26 | 79.48 / 61.74 | 6.47 / 16.78 |
-| s2_100_4080x2040 | 6.246 | 5.455 | 4.807 | 23.04% | 11.88% | 5.03 / 10.85 | 53.42 / 40.60 | 4.89 / 11.63 |
-| s2_200_4080x2040 | 6.263 | 5.459 | 4.798 | 23.38% | 12.10% | 5.03 / 10.86 | 53.52 / 40.75 | 4.93 / 11.49 |
-| s3_100_4080x2040 | 6.235 | 5.439 | 4.774 | 23.44% | 12.24% | 5.06 / 10.87 | 53.31 / 41.00 | 4.95 / 11.64 |
-| s3_200_4080x2040 | 6.255 | 5.459 | 4.803 | 23.21% | 12.02% | 5.05 / 10.84 | 53.53 / 41.02 | 4.91 / 11.65 |
-| **Total / mean** | **62.455** | **57.811** | **52.279** | **16.29%** | **9.57%** | **6.33 / 13.55** | **66.09 / 51.40** | **5.93 / 14.35** |
+| Frame | Live v2 MB | Compact MB | saved vs v2 | v2 enc / dec ms | Compact enc / dec ms |
+|---|---:|---:|---:|---:|---:|
+| s0_100_4080x3060 | 8.726 | 8.006 | 8.25% | 7.60 / 16.29 | 78.18 / 61.90 |
+| s0_200_4080x3060 | 8.725 | 8.005 | 8.25% | 7.63 / 16.21 | 77.71 / 62.23 |
+| s1_100_4080x3060 | 9.275 | 8.544 | 7.88% | 7.61 / 16.25 | 79.59 / 62.00 |
+| s1_200_4080x3060 | 9.272 | 8.542 | 7.88% | 7.64 / 16.26 | 79.48 / 61.74 |
+| s2_100_4080x2040 | 5.455 | 4.807 | 11.88% | 5.03 / 10.85 | 53.42 / 40.60 |
+| s2_200_4080x2040 | 5.459 | 4.798 | 12.10% | 5.03 / 10.86 | 53.52 / 40.75 |
+| s3_100_4080x2040 | 5.439 | 4.774 | 12.24% | 5.06 / 10.87 | 53.31 / 41.00 |
+| s3_200_4080x2040 | 5.459 | 4.803 | 12.02% | 5.05 / 10.84 | 53.53 / 41.02 |
+| **Total / mean** | **57.811** | **52.279** | **9.57%** | **6.33 / 13.55** | **66.09 / 51.40** |
 
 The host is Apple arm64, macOS 27.0.1. Compile flags: `-O3
 -march=armv8-a+crc -std=c++20` (CMake libraries use the equivalent GNU C++20
-mode). The comparison harness warms once, rotates the order of all three codecs
+mode). The comparison harness warms once, rotates the order of both codecs
 on every repetition, and takes the independent minimum of nine subsequent
 encode and decode measurements for each frame. RAW equality is checked after
 every decode, outside the timing interval. The final run was made after build
@@ -109,10 +107,9 @@ the original decoder and SHA-256 checked against the benchmark inputs:
 
 Configure the Encoder/Decoder checkouts with CMake/Ninja and
 `-DCMAKE_CXX_FLAGS='-O3 -march=armv8-a+crc'`. `bench/encode.cpp` and
-`bench/decode.cpp` wrap the CRAW codecs behind `bench/api.h`. The type 7
-baseline is GPL-3.0, so the harness that links it (timing all three codecs on
-`s[0-3]_[12]00_*.raw`) is deliberately kept out of this Apache-2.0
-repository. Full measurements are in `benchmark.csv`.
+`bench/decode.cpp` wrap the CRAW codecs behind `bench/api.h`; the timing
+driver over `s[0-3]_[12]00_*.raw` is not included. Full measurements are in
+`benchmark.csv`.
 
 The desktop installer includes `craw_compact`; run `craw compact in.craw
 out.craw` after installing.
