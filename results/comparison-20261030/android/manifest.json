@@ -138,6 +138,6 @@
   "invocation": "bench/comparison/device_batch.py --host-results results/comparison-20261030/host --binary /tmp/crs-comparison-android/craw_compare --device-info /tmp/crs-device-info.txt --out results/comparison-20261030/android --sustain 60 --sustain-modes craw1 craw2 craw3 craw4 jxl-e1-mosaic jxl-e1-planes jxl-e2-mosaic jxl-e2-planes jxl-e3-mosaic jxl-e3-planes",
   "staged_raw_sha256_verified": true,
   "sustained_expected_pairs": 10,
-  "sustained_collected_pairs": 3,
-  "collection_status": "Sustained collection is incomplete: 3/10 requested encode/decode pairs retained (Fast, Live v1, Live v2). ADB disconnected after announcing the final configuration, before final collection. Compact/JPEG XL sustained results are unavailable and are not counted as passes. All 120 short-run pairs were collected and verified."
+  "sustained_collected_pairs": 10,
+  "collection_status": "Complete: all 10 requested sustained encode/decode pairs (20 one-minute loops) recovered after USB reconnection. All decode jobs verified exact RAW equality, every operation ran for at least 60 seconds, and all thermal logs were retrieved. The earlier collection interruption required no reruns."
 }

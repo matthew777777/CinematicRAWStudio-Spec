@@ -1,0 +1,1638 @@
+Fri Oct 30 08:07:33 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=58.52, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=58.52, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.7, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=58.52, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=58.52, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=58.52, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3646000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4065
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 417
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          415404 kB
+MemAvailable:    2334132 kB
+Buffers:            1020 kB
+Cached:          1761244 kB
+SwapCached:        29240 kB
+Active:          2076168 kB
+Inactive:         998932 kB
+Active(anon):    1371976 kB
+Inactive(anon):   296960 kB
+Active(file):     704192 kB
+Inactive(file):   701972 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5546752 kB
+Dirty:              7256 kB
+Writeback:             8 kB
+AnonPages:       1629700 kB
+Mapped:          1047240 kB
+Shmem:             45152 kB
+KReclaimable:     757824 kB
+Slab:             631220 kB
+SReclaimable:     236316 kB
+SUnreclaim:       394904 kB
+KernelStack:       92268 kB
+ShadowCallStack:   23068 kB
+PageTables:       160312 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209364132 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436732 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+450000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+2000000
+Fri Oct 30 08:07:33 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=63.94, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=63.94, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.7, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=63.94, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=63.94, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=63.94, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3646000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4065
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 417
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          398560 kB
+MemAvailable:    2317912 kB
+Buffers:            1020 kB
+Cached:          1761400 kB
+SwapCached:        29240 kB
+Active:          2093588 kB
+Inactive:         999136 kB
+Active(anon):    1389396 kB
+Inactive(anon):   296960 kB
+Active(file):     704192 kB
+Inactive(file):   702176 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5546752 kB
+Dirty:              7316 kB
+Writeback:             0 kB
+AnonPages:       1647352 kB
+Mapped:          1047572 kB
+Shmem:             45144 kB
+KReclaimable:     758244 kB
+Slab:             631204 kB
+SReclaimable:     236316 kB
+SUnreclaim:       394888 kB
+KernelStack:       92288 kB
+ShadowCallStack:   23112 kB
+PageTables:       160444 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209389900 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436760 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+700000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+2600000
+Fri Oct 30 08:07:38 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=66.873, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=66.873, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.6, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=66.873, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=66.873, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=66.873, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3649000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4068
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 416
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          303292 kB
+MemAvailable:    2300240 kB
+Buffers:            1020 kB
+Cached:          1828348 kB
+SwapCached:        29136 kB
+Active:          2163508 kB
+Inactive:         986324 kB
+Active(anon):    1379044 kB
+Inactive(anon):   298104 kB
+Active(file):     784464 kB
+Inactive(file):   688220 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5512100 kB
+Dirty:              8404 kB
+Writeback:             0 kB
+AnonPages:       1637556 kB
+Mapped:          1068436 kB
+Shmem:             45864 kB
+KReclaimable:     769524 kB
+Slab:             631192 kB
+SReclaimable:     236432 kB
+SUnreclaim:       394760 kB
+KernelStack:       92164 kB
+ShadowCallStack:   23100 kB
+PageTables:       160428 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209433540 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436708 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+2000000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+2600000
+Fri Oct 30 08:07:43 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=63.163, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=63.163, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.6, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=63.163, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=63.163, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=63.163, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3649000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4068
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 416
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          297564 kB
+MemAvailable:    2258064 kB
+Buffers:            1016 kB
+Cached:          1820936 kB
+SwapCached:        29168 kB
+Active:          2190988 kB
+Inactive:         954160 kB
+Active(anon):    1394832 kB
+Inactive(anon):   298104 kB
+Active(file):     796156 kB
+Inactive(file):   656056 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5520548 kB
+Dirty:              6776 kB
+Writeback:             0 kB
+AnonPages:       1641040 kB
+Mapped:          1082776 kB
+Shmem:             58912 kB
+KReclaimable:     753548 kB
+Slab:             631208 kB
+SReclaimable:     236432 kB
+SUnreclaim:       394776 kB
+KernelStack:       92092 kB
+ShadowCallStack:   23104 kB
+PageTables:       160028 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209438648 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436596 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+2000000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:07:48 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=65.303, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=65.303, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.5, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=65.303, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=65.303, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=65.303, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3651000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4069
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 415
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          448672 kB
+MemAvailable:    2285220 kB
+Buffers:             904 kB
+Cached:          1690996 kB
+SwapCached:        29000 kB
+Active:          2145592 kB
+Inactive:         846264 kB
+Active(anon):    1373132 kB
+Inactive(anon):   298060 kB
+Active(file):     772460 kB
+Inactive(file):   548204 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5461828 kB
+Dirty:              7256 kB
+Writeback:             0 kB
+AnonPages:       1617024 kB
+Mapped:          1045820 kB
+Shmem:             59748 kB
+KReclaimable:     761144 kB
+Slab:             631156 kB
+SReclaimable:     236400 kB
+SUnreclaim:       394756 kB
+KernelStack:       92004 kB
+ShadowCallStack:   23052 kB
+PageTables:       160836 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209459372 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436392 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+2000000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+2000000
+Fri Oct 30 08:07:54 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=62.182, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=62.182, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.5, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=62.182, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=62.182, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=62.182, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3654000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4072
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 415
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          466904 kB
+MemAvailable:    2215176 kB
+Buffers:             904 kB
+Cached:          1619348 kB
+SwapCached:        28996 kB
+Active:          1683880 kB
+Inactive:        1303756 kB
+Active(anon):    1180992 kB
+Inactive(anon):   557576 kB
+Active(file):     502888 kB
+Inactive(file):   746180 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5459592 kB
+Dirty:              7280 kB
+Writeback:             0 kB
+AnonPages:       1684280 kB
+Mapped:          1029964 kB
+Shmem:             59712 kB
+KReclaimable:     744464 kB
+Slab:             631080 kB
+SReclaimable:     236352 kB
+SUnreclaim:       394728 kB
+KernelStack:       92096 kB
+ShadowCallStack:   23056 kB
+PageTables:       160568 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209489120 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436388 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               8 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+2000000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:07:59 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=60.097, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=60.097, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.5, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=60.097, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=60.097, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=60.097, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3654000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4072
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 415
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          488864 kB
+MemAvailable:    2211068 kB
+Buffers:             904 kB
+Cached:          1584500 kB
+SwapCached:        28992 kB
+Active:          1697984 kB
+Inactive:        1245352 kB
+Active(anon):    1186496 kB
+Inactive(anon):   543700 kB
+Active(file):     511488 kB
+Inactive(file):   701652 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5455128 kB
+Dirty:              7396 kB
+Writeback:             0 kB
+AnonPages:       1675272 kB
+Mapped:          1005404 kB
+Shmem:             60508 kB
+KReclaimable:     754324 kB
+Slab:             631076 kB
+SReclaimable:     236348 kB
+SUnreclaim:       394728 kB
+KernelStack:       91932 kB
+ShadowCallStack:   23060 kB
+PageTables:       160776 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209462120 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436332 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:              12 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+450000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:08:04 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=60.307, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=60.307, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.3, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=60.307, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=60.307, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=60.307, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3657000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4077
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 413
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          656620 kB
+MemAvailable:    2291508 kB
+Buffers:             868 kB
+Cached:          1524800 kB
+SwapCached:        28992 kB
+Active:          1634608 kB
+Inactive:        1126960 kB
+Active(anon):    1104260 kB
+Inactive(anon):   505156 kB
+Active(file):     530348 kB
+Inactive(file):   621804 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5394652 kB
+Dirty:              1496 kB
+Writeback:             0 kB
+AnonPages:       1552692 kB
+Mapped:           968608 kB
+Shmem:             61096 kB
+KReclaimable:     727996 kB
+Slab:             631016 kB
+SReclaimable:     236292 kB
+SUnreclaim:       394724 kB
+KernelStack:       91908 kB
+ShadowCallStack:   23036 kB
+PageTables:       160800 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209472964 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436408 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+450000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1100000
+Fri Oct 30 08:08:09 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=59.262, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=59.262, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.3, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=59.262, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=59.262, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=59.262, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3657000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4077
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 413
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          605304 kB
+MemAvailable:    2294784 kB
+Buffers:             872 kB
+Cached:          1531704 kB
+SwapCached:        29004 kB
+Active:          1681336 kB
+Inactive:        1124588 kB
+Active(anon):    1145488 kB
+Inactive(anon):   501904 kB
+Active(file):     535848 kB
+Inactive(file):   622684 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5397724 kB
+Dirty:              1076 kB
+Writeback:             0 kB
+AnonPages:       1590572 kB
+Mapped:           970084 kB
+Shmem:             61644 kB
+KReclaimable:     776208 kB
+Slab:             630984 kB
+SReclaimable:     236292 kB
+SUnreclaim:       394692 kB
+KernelStack:       91944 kB
+ShadowCallStack:   23048 kB
+PageTables:       160612 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209495616 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436340 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+700000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:08:14 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=60.132, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=60.132, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.2, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=60.132, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=60.132, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=60.132, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3660000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4073
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 412
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          605488 kB
+MemAvailable:    2265944 kB
+Buffers:             872 kB
+Cached:          1538520 kB
+SwapCached:        29004 kB
+Active:          1688716 kB
+Inactive:        1114956 kB
+Active(anon):    1146596 kB
+Inactive(anon):   491856 kB
+Active(file):     542120 kB
+Inactive(file):   623100 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5399004 kB
+Dirty:              1404 kB
+Writeback:             0 kB
+AnonPages:       1581828 kB
+Mapped:           971636 kB
+Shmem:             61840 kB
+KReclaimable:     740496 kB
+Slab:             630976 kB
+SReclaimable:     236292 kB
+SUnreclaim:       394684 kB
+KernelStack:       91804 kB
+ShadowCallStack:   22988 kB
+PageTables:       160348 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209487920 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436116 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:              28 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+450000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:08:19 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=61.614, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=61.614, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.2, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=61.614, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=61.614, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=61.614, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3660000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4073
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 412
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          579044 kB
+MemAvailable:    2263924 kB
+Buffers:             872 kB
+Cached:          1541804 kB
+SwapCached:        29004 kB
+Active:          1711528 kB
+Inactive:        1115760 kB
+Active(anon):    1167008 kB
+Inactive(anon):   491848 kB
+Active(file):     544520 kB
+Inactive(file):   623912 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5401564 kB
+Dirty:              1708 kB
+Writeback:             0 kB
+AnonPages:       1601812 kB
+Mapped:           973308 kB
+Shmem:             61992 kB
+KReclaimable:     761708 kB
+Slab:             630976 kB
+SReclaimable:     236292 kB
+SUnreclaim:       394684 kB
+KernelStack:       91780 kB
+ShadowCallStack:   23000 kB
+PageTables:       160980 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209491588 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      435948 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:              76 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+1500000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:08:25 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=60.745, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=60.745, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.1, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=60.745, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=60.745, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=60.745, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3663000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4075
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 411
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          546080 kB
+MemAvailable:    2184528 kB
+Buffers:             896 kB
+Cached:          1571668 kB
+SwapCached:        29028 kB
+Active:          1744920 kB
+Inactive:        1114044 kB
+Active(anon):    1172960 kB
+Inactive(anon):   489088 kB
+Active(file):     571960 kB
+Inactive(file):   624956 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5411804 kB
+Dirty:              1380 kB
+Writeback:             0 kB
+AnonPages:       1603136 kB
+Mapped:           979700 kB
+Shmem:             63404 kB
+KReclaimable:     686792 kB
+Slab:             630972 kB
+SReclaimable:     236292 kB
+SUnreclaim:       394680 kB
+KernelStack:       91728 kB
+ShadowCallStack:   22968 kB
+PageTables:       160372 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209491008 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436228 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+2000000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:08:30 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=59.822, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=59.822, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.1, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=59.822, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=59.822, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=59.822, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3663000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4075
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 411
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          486916 kB
+MemAvailable:    2129588 kB
+Buffers:             896 kB
+Cached:          1572736 kB
+SwapCached:        29028 kB
+Active:          1799328 kB
+Inactive:        1114316 kB
+Active(anon):    1227324 kB
+Inactive(anon):   488872 kB
+Active(file):     572004 kB
+Inactive(file):   625444 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5412572 kB
+Dirty:              1676 kB
+Writeback:             0 kB
+AnonPages:       1657128 kB
+Mapped:           980468 kB
+Shmem:             63980 kB
+KReclaimable:     690484 kB
+Slab:             630972 kB
+SReclaimable:     236292 kB
+SUnreclaim:       394680 kB
+KernelStack:       91780 kB
+ShadowCallStack:   23008 kB
+PageTables:       160604 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209530176 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436244 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+2000000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000
+Fri Oct 30 08:08:35 UTC 2026
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 6
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=64.495, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=64.495, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=64.495, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=64.495, mType=13, mName=SOC, mStatus=0}
+	Temperature{mValue=64.495, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=36.6, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=57.748, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=57.748, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=41.0, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=57.748, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=57.748, mType=10, mName=TPU, mStatus=0}
+	Temperature{mValue=57.748, mType=13, mName=SOC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=3, mName=devfreq-13000000.mali}
+	CoolingDevice{mValue=0, mType=6, mName=charger-cooler}
+	CoolingDevice{mValue=0, mType=6, mName=lcd-backlight}
+	CoolingDevice{mValue=0, mType=6, mName=wifi-cooler}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=0, mName=CPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=GPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=BATTERY, mHotThrottlingThresholds=[NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=NPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=10, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=13, mName=SOC, mHotThrottlingThresholds=[NaN, NaN, NaN, 85.0, 90.0, 100.0, 117.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, NaN, NaN, NaN, NaN, NaN, NaN]
+Current Battery Service state:
+  AC powered: true
+  USB powered: false
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 1500000
+ Time when the latest updated value of the Max charging current was sent via battery changed broadcast: +7d23h29m58s134ms
+  Max charging voltage: 5000000
+  Charge counter: 3665000
+  status: 2
+  health: 2
+  present: true
+  level: 62
+  scale: 100
+  voltage: 4075
+ Time when the latest updated value of the voltage was sent via battery changed broadcast: +7d23h54m43s57ms
+ The last voltage value sent via the battery changed broadcast: 4050
+  temperature: 410
+  technology: Li-poly
+  Charging state: 0
+  Charging policy: 0
+  Capacity level: 3
+MiuiBatteryService first usage time:
+  mSetBatteryUsageTimeCount=2
+  mNtpTime=1779534613966
+  mParseNtpTime=20260522
+MemTotal:        7588428 kB
+MemFree:          521796 kB
+MemAvailable:    2005820 kB
+Buffers:             856 kB
+Cached:          1527264 kB
+SwapCached:        29032 kB
+Active:          1767664 kB
+Inactive:        1052308 kB
+Active(anon):    1180316 kB
+Inactive(anon):   488832 kB
+Active(file):     587348 kB
+Inactive(file):   563476 kB
+Unevictable:      318208 kB
+Mlocked:          318208 kB
+SwapTotal:       8388604 kB
+SwapFree:        5413852 kB
+Dirty:             10992 kB
+Writeback:             0 kB
+AnonPages:       1608620 kB
+Mapped:           942348 kB
+Shmem:             64780 kB
+KReclaimable:     578460 kB
+Slab:             630980 kB
+SReclaimable:     236292 kB
+SUnreclaim:       394688 kB
+KernelStack:       91696 kB
+ShadowCallStack:   22960 kB
+PageTables:       160176 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12182816 kB
+Committed_AS:   209454500 kB
+VmallocTotal:   259653632 kB
+VmallocUsed:      436760 kB
+VmallocChunk:          0 kB
+Percpu:            14496 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         229376 kB
+CmaFree:               0 kB
+/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq
+1800000
+/sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq
+1300000

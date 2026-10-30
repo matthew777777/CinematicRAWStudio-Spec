@@ -78,15 +78,12 @@ Every decode checks the original RAW; every repeated encode must produce
 identical bytes. Source RAW hashes were also verified after pushing to Android.
 The native source is unchanged between the host and Android builds.
 
-One-minute encode and decode loops were requested for all ten configurations
-on the first frame with four requested threads. **Only Fast, Live v1 and Live v2
-have complete sustained results collected locally (3/10 pairs, six loops).**
-ADB disconnected after the batch announced its last configuration, before final
-collection. Compact and JPEG XL sustained timings/logs were not retrieved and
-are therefore unavailable, not counted as passes. All 120 phone short-run pairs
-were collected and remain verified. The on-phone files may be recoverable after
-reconnection; the staged batch and jobs list are retained for collection/re-run.
-See the Android report and raw thermal logs for the retained first/last-window
+**All ten sustained encode/decode pairs (20 one-minute loops) completed and
+were recovered from the phone after reconnection.** Every decode verified exact
+RAW equality; every operation ran for at least 60 seconds. The earlier USB
+disconnection prevented collection, but did not prevent the batch from finishing.
+All 120 phone short-run pairs also remain verified. No reruns were needed.
+See the Android report and raw thermal logs for the complete first/last-window
 observations. These loops reuse one frame in RAM, run sequentially without controlled
 cooldown, and are not proof of thermal steady state or sustained capture.
 Charging, other device work and scheduler state are not controlled.

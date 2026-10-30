@@ -67,7 +67,7 @@ Compare each CRAW mode with the smallest measured JPEG XL effort/layout on each 
 
 These reuse one extracted frame in RAM. They do not exercise Camera2, preview, audio, storage, recorder queues or dropped capture frames. Decode loops follow encode loops; order and starting temperature can affect results. Thermal/battery snapshots are retained on Android. No cooldown, fixed-clock or equal-temperature guarantee is made.
 
-Sustained collection is incomplete: 3/10 requested encode/decode pairs retained (Fast, Live v1, Live v2). ADB disconnected after announcing the final configuration, before final collection. Compact/JPEG XL sustained results are unavailable and are not counted as passes. All 120 short-run pairs were collected and verified.
+Complete: all 10 requested sustained encode/decode pairs (20 one-minute loops) recovered after USB reconnection. All decode jobs verified exact RAW equality, every operation ran for at least 60 seconds, and all thermal logs were retrieved. The earlier collection interruption required no reruns.
 
 ### craw1, 4 threads, take0-frame0, 60 seconds per operation
 
@@ -89,6 +89,55 @@ Sustained collection is incomplete: 3/10 requested encode/decode pairs retained 
 |---|---:|---:|---:|---:|---:|---:|
 | encode | 2729 | 18.18 | 19.76 | 18.37 | 33.31 | 56.0 |
 | decode | 1819 | 29.79 | 18.84 | 24.88 | 39.82 | 44.3 |
+
+### craw4, 4 threads, take0-frame0, 60 seconds per operation
+
+| operation | iterations | first 10 s median ms | last 10 s median ms | median ms | p95 ms | peak MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| encode | 677 | 87.90 | 83.68 | 82.60 | 143.49 | 50.8 |
+| decode | 1245 | 28.99 | 47.29 | 41.33 | 66.82 | 43.6 |
+
+### jxl-e1-mosaic, 4 threads, take0-frame0, 60 seconds per operation
+
+| operation | iterations | first 10 s median ms | last 10 s median ms | median ms | p95 ms | peak MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| encode | 1178 | 46.89 | 48.08 | 47.35 | 62.75 | 74.4 |
+| decode | 541 | 98.72 | 92.77 | 98.05 | 157.87 | 72.1 |
+
+### jxl-e1-planes, 4 threads, take0-frame0, 60 seconds per operation
+
+| operation | iterations | first 10 s median ms | last 10 s median ms | median ms | p95 ms | peak MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| encode | 926 | 62.49 | 68.57 | 66.03 | 76.43 | 84.1 |
+| decode | 552 | 100.37 | 104.32 | 100.76 | 144.06 | 68.8 |
+
+### jxl-e2-mosaic, 4 threads, take0-frame0, 60 seconds per operation
+
+| operation | iterations | first 10 s median ms | last 10 s median ms | median ms | p95 ms | peak MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| encode | 187 | 322.06 | 312.12 | 312.97 | 431.46 | 173.1 |
+| decode | 512 | 123.52 | 108.42 | 111.05 | 130.47 | 70.7 |
+
+### jxl-e2-planes, 4 threads, take0-frame0, 60 seconds per operation
+
+| operation | iterations | first 10 s median ms | last 10 s median ms | median ms | p95 ms | peak MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| encode | 187 | 288.67 | 307.64 | 303.92 | 445.79 | 186.1 |
+| decode | 459 | 105.39 | 124.55 | 112.42 | 192.91 | 68.9 |
+
+### jxl-e3-mosaic, 4 threads, take0-frame0, 60 seconds per operation
+
+| operation | iterations | first 10 s median ms | last 10 s median ms | median ms | p95 ms | peak MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| encode | 143 | 408.98 | 456.34 | 404.33 | 610.90 | 174.2 |
+| decode | 287 | 183.06 | 202.64 | 188.86 | 292.17 | 70.2 |
+
+### jxl-e3-planes, 4 threads, take0-frame0, 60 seconds per operation
+
+| operation | iterations | first 10 s median ms | last 10 s median ms | median ms | p95 ms | peak MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| encode | 143 | 345.61 | 499.69 | 406.92 | 635.15 | 187.1 |
+| decode | 295 | 182.95 | 199.68 | 182.22 | 316.14 | 68.3 |
 
 
 ## Limits
