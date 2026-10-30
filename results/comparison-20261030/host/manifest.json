@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "started_utc": "2026-10-30T07:48:47Z",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "system": "Darwin Monikas-MacBook-Air.local 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:05:27 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T8103 arm64",
+  "binary_sha256": "d2c0d182ccdaeaaee30e14d98a9bc3a20594baaab8e65e9825c1d625355072df",
+  "revisions": {
+    "CinematicRAWStudio-Spec": {
+      "head": "ef49a4aa8c6b9e0130987896d00414f3cc63cbd8",
+      "status": "M PLAN.md\n M SPEC.md\n?? BENCHMARKS.md\n?? bench/"
+    },
+    "CinematicRAWStudio-Encoder": {
+      "head": "5564a42675633f5e20b0962306e0779e31eaa1dd",
+      "status": "?? CRAW_FORMATS.md"
+    },
+    "CinematicRAWStudio-Decoder": {
+      "head": "290b522cde92cde93ee28d3473c806ec398b049d",
+      "status": ""
+    },
+    "CinematicRAWStudio-TUI": {
+      "head": "872cdb8bcaaf61a1c2893c6268ecda79ab2dcb99",
+      "status": "?? .idea/"
+    },
+    "libjxl": {
+      "head": "a7a9c787341cf703dede03c2009fa460cae5e5df",
+      "submodules": "73695d303670c90e4d506ea89d9901b081385089 testdata (heads/main)\n 028fb5a23661f123017c060daa546b55cf4bde29 third_party/brotli (028fb5a)\n 6910c9d9165801d8827d628cb72eb7ea9dd538c5 third_party/googletest (6910c9d)\n 457c891775a7397bdb0376bb1031e6e027af1c48 third_party/highway (457c891)\n 5176347635785e53ee5cee92328f76fda766ecc6 third_party/lcms (5176347)\n 8ecba3647edb6dd940463fedf38ca33a8e2a73d1 third_party/libjpeg-turbo (8ecba36)\n 872555f4ba910252783af1507f9e7fe1653be252 third_party/libpng (872555f)\n 94e0df6d0f8b44228de5be0ff35efb9f946a13c9 third_party/sjpeg (94e0df6)\n 96d9171c94b937a1b5f0293de7309ac16311b722 third_party/skcms (96d9171)\n 51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf third_party/zlib (51b7f2a)"
+    }
+  },
+  "sources": [
+    {
+      "name": "IMG_20261027_124350_527_VID.craw",
+      "sha256": "e8fd4cda6336552919a2d72f296ec0a3ff8e060826114ce97256d859858491a7",
+      "bytes": 1454276253
+    },
+    {
+      "name": "IMG_20261027_124417_257_VID.craw",
+      "sha256": "d8cfb7b1efaa5687c552b27104dea8cc7cee5f3e0813cf6d8b0836e56fb830cd",
+      "bytes": 1408858751
+    }
+  ],
+  "samples": [
+    {
+      "width": 4080,
+      "height": 2040,
+      "bits": 10,
+      "cfa": 2,
+      "frame_count": 266,
+      "timestamp_ns": 0,
+      "id": "take0-frame0",
+      "source": "IMG_20261027_124350_527_VID.craw",
+      "frame_index": 0,
+      "raw_sha256": "cbfd2b0de58ba2b96627430020704ae690f503050523f1aa55cc8e3049566484"
+    },
+    {
+      "width": 4080,
+      "height": 2040,
+      "bits": 10,
+      "cfa": 2,
+      "frame_count": 266,
+      "timestamp_ns": 4399495000,
+      "id": "take0-frame132",
+      "source": "IMG_20261027_124350_527_VID.craw",
+      "frame_index": 132,
+      "raw_sha256": "e49146e024ceef5153fb1689167da0365b3456cc5cc95aea3e49bb68a31402e5"
+    },
+    {
+      "width": 4080,
+      "height": 2040,
+      "bits": 10,
+      "cfa": 2,
+      "frame_count": 266,
+      "timestamp_ns": 8832321000,
+      "id": "take0-frame265",
+      "source": "IMG_20261027_124350_527_VID.craw",
+      "frame_index": 265,
+      "raw_sha256": "c23da47f4ea5a66d8cca0e25e1b3e47fbf6f64b3fb75087ceda8d8633972e918"
+    },
+    {
+      "width": 4080,
+      "height": 2040,
+      "bits": 10,
+      "cfa": 2,
+      "frame_count": 272,
+      "timestamp_ns": 0,
+      "id": "take1-frame0",
+      "source": "IMG_20261027_124417_257_VID.craw",
+      "frame_index": 0,
+      "raw_sha256": "bd5d3373808f83241974c5c0f8981d17e0cecd736f73accda7c5c027d003b8f2"
+    },
+    {
+      "width": 4080,
+      "height": 2040,
+      "bits": 10,
+      "cfa": 2,
+      "frame_count": 272,
+      "timestamp_ns": 4532814000,
+      "id": "take1-frame136",
+      "source": "IMG_20261027_124417_257_VID.craw",
+      "frame_index": 136,
+      "raw_sha256": "80a9fa55a9de9552a56cf0251ecf579b66b0279866e88f5b34fe01f3e7b7b67f"
+    },
+    {
+      "width": 4080,
+      "height": 2040,
+      "bits": 10,
+      "cfa": 2,
+      "frame_count": 272,
+      "timestamp_ns": 9032300000,
+      "id": "take1-frame271",
+      "source": "IMG_20261027_124417_257_VID.craw",
+      "frame_index": 271,
+      "raw_sha256": "85eae793e85f363a6a909795bcaf5732a037bf2453744ba449bf8ca283c083a1"
+    }
+  ],
+  "reps": 5,
+  "warmups": 1,
+  "threads": [
+    1,
+    4
+  ],
+  "modes": [
+    "craw1",
+    "craw2",
+    "craw3",
+    "craw4",
+    "jxl-e1-mosaic",
+    "jxl-e1-planes",
+    "jxl-e2-mosaic",
+    "jxl-e2-planes",
+    "jxl-e3-mosaic",
+    "jxl-e3-planes"
+  ],
+  "driver_sha256": "92586a19073191cfb57283f2843022e7cd6aabb70f7230cb1eafcfec51ffa565",
+  "native_source_sha256": "5667eea6d6f571aa86ae7e480d0b8d41291a6746d9bd213a3868a971591d89fe",
+  "invocation": "bench/comparison/run.py --binary /tmp/crs-comparison-host/craw_compare --takes /Users/monikamalinowska/Downloads/IMG_20261027_124350_527_VID.craw /Users/monikamalinowska/Downloads/IMG_20261027_124417_257_VID.craw --jxl-source /Users/monikamalinowska/AndroidStudioProjects/RawLens/third_party/libjxl --out results/comparison-20261030/host --work /tmp/craw-comparison-inputs --reps 5 --warmups 1 --samples 3 --threads 1 4",
+  "device": null
+}

@@ -12,10 +12,11 @@ DaVinci Resolve and other editors. Apache-2.0.
 | repo | what it is |
 |------|-----------|
 | **CinematicRAWStudio-Spec** (this) | format spec, Python reference, golden vectors, device benchmark harness, installers and helper scripts |
-| [CinematicRAWStudio-Encoder](../CinematicRAWStudio-Encoder) | C++20 encoder + streaming writer (used by RawLens on Android), `craw_enc`, `craw_bench` |
-| [CinematicRAWStudio-Decoder](../CinematicRAWStudio-Decoder) | C++20 decoder + reader, `craw_dec`, `craw2dng`, `craw_mount`, FSKit module |
-| [CinematicRAWStudio-TUI](../CinematicRAWStudio-TUI) | `craw-tui`: terminal browser, grading and renderer (ProRes, DNxHR, HEVC, H.264, AV1, CinemaDNG) |
+| [CinematicRAWStudio-Encoder](https://github.com/matthew777777/CinematicRAWStudio-Encoder) | C++20 encoder + streaming writer (used by RawLens on Android), `craw_enc`, `craw_bench` |
+| [CinematicRAWStudio-Decoder](https://github.com/matthew777777/CinematicRAWStudio-Decoder) | C++20 decoder + reader, `craw_dec`, `craw2dng`, `craw_mount`, FSKit module |
+| [CinematicRAWStudio-TUI](https://github.com/matthew777777/CinematicRAWStudio-TUI) | `craw-tui`: terminal browser, grading and renderer (ProRes, DNxHR, HEVC, H.264, AV1, CinemaDNG) |
 | RawLens (Android app) | records `.craw` via the encoder (GPL-3.0-or-later app; the CRAW libraries are Apache-2.0) |
+| [CinematicRAWStudio-Android](https://github.com/matthew777777/CinematicRAWStudio-Android) | first-party Android player/editor and CinemaDNG/video export |
 
 ## Install all desktop tools
 
@@ -58,9 +59,13 @@ menu shortcut and Open With registration. Installers do not run tests.
 - Codec **CRAW-Fast** (v0.2): four CFA planes with green-difference
   prediction, MED predictor, block-adaptive Golomb-Rice (16-sample blocks,
   causal parameter — no side information), 128x128 independent tiles.
-- Measured: 3.6–5.0 bits/pixel on real phone footage; encode 650–700 MPix/s
-  on a MediaTek MT6878 phone
-  (4080x3060 12-bit ≈ 52–56 fps), bit-exact round trip.
+- Historical reports: Fast produced 3.6–5.0 bits/pixel on selected phone footage;
+  earlier MT6878 reports quote 650–700 MPix/s. These are configuration-specific
+  figures, not sustained recording or JPEG XL superiority guarantees.
+- Current codecs: 1 Fast, 2 Live v1, 3 Live v2, 4 Compact. Fast is slower than
+  Live in the published host comparison; Compact is an offline CPU/size tradeoff.
+- [Evidence, codec registry and limits](BENCHMARKS.md) ·
+  [reproducible CRAW/JPEG XL comparison](bench/comparison/README.md).
 
 Details: [SPEC.md](SPEC.md) · roadmap and measurements: [PLAN.md](PLAN.md).
 

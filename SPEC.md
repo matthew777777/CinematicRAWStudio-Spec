@@ -2,8 +2,15 @@
 
 SPDX-License-Identifier: Apache-2.0
 
-Status: **draft**. Wire layout may change until v1.0 is frozen. Every rule here
-is normative; the Python reference in `reference/craw.py` is the tiebreaker.
+Status: **draft**, not yet frozen as v1.0. Every rule here is normative; the
+Python reference in `reference/craw.py` is the tiebreaker. Implemented codec IDs
+1–4 have existing recordings and golden vectors; an incompatible codec syntax
+requires a new ID, not reassignment of an existing ID. An incompatible container
+revision requires an explicit version/reader compatibility review. Minor changes
+remain additive as described in §1.1.
+
+Codec registry and performance evidence: [BENCHMARKS.md](BENCHMARKS.md).
+Codec IDs 1/2/3/4 are Fast/Live v1/Live v2/Compact; future rANS has no assigned ID.
 
 All integers are little-endian. `u8/u16/u32/u64` unsigned, `i64` signed,
 `f32` IEEE-754 binary32. CRC32C is the Castagnoli CRC (poly `0x82F63B78`,
@@ -401,7 +408,10 @@ u32 sample_rate
 u32 frame_count
 u8[] interleaved samples
 ```
-F32 is preferred (no digital clipping); S16 is the fallback.
+F32 can represent values outside the normalized range without integer storage
+clipping; it does not prevent microphone/ADC or upstream processing clipping.
+The format also supports S16/S24. Current RawLens capture uses S16; readers
+must follow each AUDI chunk's format field rather than assume F32 capture.
 
 ## 6. IMU_
 

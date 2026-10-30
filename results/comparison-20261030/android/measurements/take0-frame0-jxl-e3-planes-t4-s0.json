@@ -1,0 +1,66 @@
+{
+  "sample": "take0-frame0",
+  "mode": "jxl-e3-planes",
+  "threads": 4,
+  "sustained_seconds": 0,
+  "commands": {
+    "encode": "./craw_compare measure take0-frame0.raw 4080 2040 10 2 jxl-e3-planes 4 encode payload.bin 5 0 1",
+    "decode": "./craw_compare measure take0-frame0.raw 4080 2040 10 2 jxl-e3-planes 4 decode payload.bin 5 0 1"
+  },
+  "encode": {
+    "payload_bytes": 4646691,
+    "peak_rss_bytes": 193179648,
+    "wall_seconds": 1.507956,
+    "jxl_version": 12000,
+    "verified": false,
+    "ms": [
+      307.809307,
+      298.149846,
+      300.365769,
+      302.251,
+      294.444
+    ],
+    "cpu_ms": [
+      841.759,
+      851.153,
+      829.358,
+      840.251,
+      819.397
+    ],
+    "start_seconds": [
+      0,
+      0.308966769,
+      0.607863769,
+      0.909167692,
+      1.212432692
+    ]
+  },
+  "decode": {
+    "payload_bytes": 4646691,
+    "peak_rss_bytes": 72069120,
+    "wall_seconds": 0.956335,
+    "jxl_version": 12000,
+    "verified": true,
+    "ms": [
+      124.284,
+      198.196,
+      207.391,
+      197.02277,
+      200.866538
+    ],
+    "cpu_ms": [
+      396.076,
+      681.849,
+      698.598,
+      666.576,
+      678.9
+    ],
+    "start_seconds": [
+      0,
+      0.129306154,
+      0.333788539,
+      0.547283693,
+      0.750140539
+    ]
+  }
+}

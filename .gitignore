@@ -2,5 +2,6 @@ build*/
 .DS_Store
 .idea/
 __pycache__/
-results/
+results/*
+!results/comparison-20261030/
 *.craw

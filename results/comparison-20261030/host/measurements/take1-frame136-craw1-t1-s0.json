@@ -1,0 +1,96 @@
+{
+  "sample": "take1-frame136",
+  "mode": "craw1",
+  "threads": 1,
+  "sustained_seconds": 0,
+  "commands": {
+    "encode": [
+      "/tmp/crs-comparison-host/craw_compare",
+      "measure",
+      "/tmp/craw-comparison-inputs/take1-frame136.raw",
+      "4080",
+      "2040",
+      "10",
+      "2",
+      "craw1",
+      "1",
+      "encode",
+      "/tmp/craw-comparison-inputs/payload.bin",
+      "5",
+      "0",
+      "1"
+    ],
+    "decode": [
+      "/tmp/crs-comparison-host/craw_compare",
+      "measure",
+      "/tmp/craw-comparison-inputs/take1-frame136.raw",
+      "4080",
+      "2040",
+      "10",
+      "2",
+      "craw1",
+      "1",
+      "decode",
+      "/tmp/craw-comparison-inputs/payload.bin",
+      "5",
+      "0",
+      "1"
+    ]
+  },
+  "encode": {
+    "payload_bytes": 5177089,
+    "peak_rss_bytes": 69451776,
+    "wall_seconds": 0.076868708,
+    "jxl_version": 12000,
+    "verified": false,
+    "ms": [
+      15.530375,
+      15.035083,
+      15.108375,
+      15.105791,
+      15.139
+    ],
+    "cpu_ms": [
+      15.509,
+      15.012,
+      15.084,
+      15.065,
+      15.074
+    ],
+    "start_seconds": [
+      0,
+      0.015741417,
+      0.030962792,
+      0.046246375,
+      0.06153275
+    ]
+  },
+  "decode": {
+    "payload_bytes": 5177089,
+    "peak_rss_bytes": 52396032,
+    "wall_seconds": 0.202334,
+    "jxl_version": 12000,
+    "verified": true,
+    "ms": [
+      39.445166,
+      40.061792,
+      39.673083,
+      39.251041,
+      39.686416
+    ],
+    "cpu_ms": [
+      39.378,
+      39.783,
+      39.54,
+      39.227,
+      39.556
+    ],
+    "start_seconds": [
+      4.2e-08,
+      0.040147,
+      0.080995375,
+      0.122020125,
+      0.161884375
+    ]
+  }
+}

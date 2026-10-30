@@ -3,16 +3,25 @@
 | # | Milestone | Status |
 |---|-----------|--------|
 | 1 | Repos (Spec / Encoder / Decoder), Apache-2.0, C++20, CMake, NDK arm64 + armv7 builds, device harness | done |
-| 2 | Python reference + golden vectors; real-footage benchmark | done; JPEG XL comparison pending (cjxl not installed) |
+| 2 | Python reference + golden vectors; real-footage benchmark | reference done; reproducible CRAW/JPEG XL comparison: [BENCHMARKS.md](BENCHMARKS.md) |
 | 3 | Spec v0.2: block-adaptive Rice (per-pixel adaptive v0.1 was serial-bound on phones) | done, draft |
 | 4 | C++ encoder / clean-room decoder bit-exact vs reference | done |
 | 5 | Speed: NEON extract/MED/block sums, quad code-word puts, parallel CRC, zero-copy commit, big-core pinning, MT decode | done for this device (numbers below) |
-| 6 | RawLens integration: CRS replaced by .CRAW (JNI, recorder, burst, reader), on-device round-trip test | done; real Camera2 recording run pending |
+| 6 | RawLens integration: CRS replaced by .CRAW (JNI, recorder, burst, reader), on-device round-trip test | done; short Camera2 tests reported in RawLens; sustained full recorder acceptance pending |
 | 7 | DaVinci Resolve: `craw_mount` (fuse-t CinemaDNG mount) + `craw2dng` | done; not yet tried inside Resolve itself |
-| 8 | LSHD chunk from recorder, F32 audio | done |
-| 9 | CRAW-Max (rANS, codec id 2), run mode, THMB, spec v1.0 | |
+| 8 | LSHD chunk from recorder, F32 container support | done; current RawLens audio capture is PCM16 |
+| 9 | Freeze v1.0 after compatibility review and reproducible performance/size gates | pending; IDs 1–4 already assigned, no future rANS ID allocated |
 
-## Measured on MT6878 (Xiaomi 25080RABDG), 12-bit 4080×3060
+Current codec registry, evidence limits and reproduction instructions:
+[BENCHMARKS.md](BENCHMARKS.md). IDs 1/2/3/4 mean Fast/Live v1/Live v2/Compact.
+The next priority is validating these implementations, before adding a codec.
+
+## Historical throughput reports: MT6878, 12-bit 4080×3060
+
+These are historical reported codec/app-path throughput, not a sustained
+recording acceptance result. The original reproducible harness output for
+these exact rows is not attached. Do not combine them with the early synthetic
+10-bit device JSONs or the new comparison as if they measured one configuration.
 
 | path | MPix/s | fps 4080×3060 | fps UHD |
 |------|--------|---------------|---------|
@@ -22,22 +31,23 @@
 | + quad puts, fast-core pinning, 6 workers | 653–700 | 52–56 | 79–84 |
 | decode (RawLens JNI, all cores) | 256–298 | — | — |
 
-Camera limit on this phone: RAW_SENSOR minimum frame duration is 50 ms at
-every advertised size (20 fps; RawLens achieves 30 in practice), so the
-encoder already exceeds what this sensor delivers.
-
-Goal "4K 12-bit ≥ 60 fps": met for UHD 3840×2160 on the app path. Full
-4080×3060 @ 60 needs 749 MPix/s and ~485 MB/s sustained storage (device
-measures ~563 MB/s with fsync), so it is compute- and near storage-bound.
-Next levers: thread pinning to big cores, NEON bit emission, decoder threads.
+The old “4K 12-bit ≥60 fps” statement extrapolated UHD pixel throughput;
+it did not demonstrate a sustained camera-to-storage recording at that rate.
+Full 4080×3060 @60 requires about 749 MPix/s before recorder overhead.
+Camera-advertised durations and observed short-run cadence can differ; verify
+actual timestamps and losses in a sustained recording before claiming a mode.
 
 ## Audio (phase 6)
-Capture `ENCODING_PCM_FLOAT` (no digital clipping) stored as `AUDI` format 2;
-PCM16 fallback for devices without float support. Stereo L/R peak meters in
-dBFS (−60…+12) instead of a single mono 0..1 peak. BWF WAV export with
-timecode from `META.video.timecode_start`.
+The format supports F32 audio as `AUDI` format 2 as well as PCM16/PCM24.
+Current RawLens recording uses PCM16; format support does not imply float
+capture in the app. Float storage does not prevent microphone/ADC clipping.
+WAV export and Broadcast WAV timecode are tested separately from capture.
 
 ## Ship gates
 - bit-exact round trip on every vector and every recorded test clip
-- size ≤ JPEG XL lossless (effort 1–3) on the same frames
+- size ≤ JPEG XL lossless (effort 1–3) on the same frames, reporting each
+  CRAW codec and both Bayer/CFA-plane JPEG XL layouts separately; do not
+  declare a global pass from a narrow corpus
 - device_bench: no regression > 5 % throughput, none in ratio
+- sustained phone codec loops and end-to-end recorder acceptance are separate
+  gates; neither host speed nor a short encode benchmark substitutes for them

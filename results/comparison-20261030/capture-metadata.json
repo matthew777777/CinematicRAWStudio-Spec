@@ -1,0 +1,32 @@
+{
+  "take0-frame0": {
+    "iso": 50,
+    "exposureTime": 1914990,
+    "codec": "CRAW-Live v2"
+  },
+  "take0-frame132": {
+    "iso": 50,
+    "exposureTime": 1914990,
+    "codec": "CRAW-Live v2"
+  },
+  "take0-frame265": {
+    "iso": 50,
+    "exposureTime": 1914990,
+    "codec": "CRAW-Live v2"
+  },
+  "take1-frame0": {
+    "iso": 50,
+    "exposureTime": 1914990,
+    "codec": "CRAW-Fast"
+  },
+  "take1-frame136": {
+    "iso": 50,
+    "exposureTime": 1914990,
+    "codec": "CRAW-Fast"
+  },
+  "take1-frame271": {
+    "iso": 50,
+    "exposureTime": 1914990,
+    "codec": "CRAW-Fast"
+  }
+}
