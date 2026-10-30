@@ -56,14 +56,14 @@ menu shortcut and Open With registration. Installers do not run tests.
 
 - Chunked container (header, META JSON, FRAM, AUDI, IMU_, LSHD, THMB, INDX,
   trailer), CRC32C on every chunk, optional raw-frame CRC, crash-recoverable.
-- Codec **CRAW-Fast** (v0.2): four CFA planes with green-difference
+- Codec **CRAW Balanced** (codec 1, historical name CRAW-Fast): four CFA planes with green-difference
   prediction, MED predictor, block-adaptive Golomb-Rice (16-sample blocks,
   causal parameter — no side information), 128x128 independent tiles.
 - Historical reports: Fast produced 3.6–5.0 bits/pixel on selected phone footage;
   earlier MT6878 reports quote 650–700 MPix/s. These are configuration-specific
   figures, not sustained recording or JPEG XL superiority guarantees.
-- Current codecs: 1 Fast, 2 Live v1, 3 Live v2, 4 Compact. Fast is slower than
-  Live in the published host comparison; Compact is an offline CPU/size tradeoff.
+- Current display names: 1 Balanced, 2 Live v1 — Legacy, 3 Live,
+  4 Compact — Offline. IDs and historical metadata names remain compatible.
 - [Evidence, codec registry and limits](BENCHMARKS.md) ·
   [reproducible CRAW/JPEG XL comparison](bench/comparison/README.md).
 
@@ -84,3 +84,20 @@ fails on >5 % throughput or any compression regression versus
 ## License
 
 Apache-2.0 (code). See [NOTICE](NOTICE).
+
+
+## Codec display names
+
+| ID | Display name | Historical names / aliases |
+|---:|---|---|
+| 1 | **CRAW Balanced** | CRAW-Fast, Fast |
+| 2 | **CRAW Live v1 — Legacy** | CRAW-Live, CRAW-Live v1, Live v1 |
+| 3 | **CRAW Live** | CRAW-Live v2, Live v2 |
+| 4 | **CRAW Compact — Offline** | CRAW-Compact, Desktop Compact |
+
+These are display names. Codec IDs, encoded bytes, saved numeric preferences
+and legacy metadata strings retain their existing meanings. Existing recordings
+are not rewritten. Historical benchmark reports keep their original labels;
+use the IDs to match them to this table. Balanced describes the intended
+size/CPU tradeoff, not a guarantee of the smallest files. Live is the current
+recording choice; Live v1 is retained for compatibility and Compact is offline.

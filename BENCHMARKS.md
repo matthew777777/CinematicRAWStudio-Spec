@@ -6,14 +6,15 @@ it is not implied by the format name, prediction method or entropy coder.
 
 ## Implemented codec registry
 
-| ID | Stable name | Method | Intended use |
+| ID | Display name (historical alias) | Method | Intended use |
 |---:|---|---|---|
-| 1 | CRAW-Fast | colour differences, MED, causal block-adaptive Rice | smaller recording payloads when CPU permits |
-| 2 | CRAW-Live v1 | left prediction, adaptive fixed-width blocks | compatibility with existing recordings |
-| 3 | CRAW-Live v2 | four-neighbour prediction, adaptive fixed-width blocks, optional patches | current RawLens Live recording choice |
-| 4 | CRAW-Compact | per-tile predictor search, explicit block Rice parameters | offline compaction |
+| 1 | CRAW Balanced (CRAW-Fast) | colour differences, MED, causal block-adaptive Rice | smaller recording payloads when CPU permits |
+| 2 | CRAW Live v1 — Legacy (CRAW-Live) | left prediction, adaptive fixed-width blocks | compatibility with existing recordings |
+| 3 | CRAW Live (CRAW-Live v2) | four-neighbour prediction, adaptive fixed-width blocks, optional patches | current RawLens Live recording choice |
+| 4 | CRAW Compact — Offline (CRAW-Compact) | per-tile predictor search, explicit block Rice parameters | offline compaction |
 
-Names and IDs remain compatible with existing files. “Fast” predates Live and
+Display labels do not change IDs, payloads or legacy metadata names. Historical
+benchmark reports retain their labels. “Fast” predates Live and
 does not mean fastest among these modes. No ID is reserved for a future rANS
 codec. Codec 3 patched-block search is off in the comparison and in the default
 live encoder. Codec 1's Rice parameter adapts from neighbouring blocks; it has

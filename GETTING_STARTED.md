@@ -59,7 +59,8 @@ craw tui "take.craw"
 craw tui "my videos"
 ```
 
-CRAW-Live and CRAW-Fast are detected automatically. Keep the original
+CRAW Live, CRAW Balanced (formerly CRAW-Fast), CRAW Live v1 — Legacy and
+CRAW Compact — Offline are detected automatically. Keep the original
 `.craw` files; they are your camera originals.
 
 ## 3. Open a take in Resolve
@@ -197,4 +198,4 @@ a new output path; existing files are refused. Frames that do not become smaller
 keep their original payload. Open the output in the TUI or export CinemaDNG as
 usual. Compact takes decode more slowly than Live v2, and savings vary by scene.
 It requires a complete indexed input and an output filesystem supporting hard
-links. Recording on the phone continues to use Live v2.
+links. Recording on the phone continues to use CRAW Live (codec 3, formerly Live v2).

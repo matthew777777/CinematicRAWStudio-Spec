@@ -10,7 +10,9 @@ revision requires an explicit version/reader compatibility review. Minor changes
 remain additive as described in §1.1.
 
 Codec registry and performance evidence: [BENCHMARKS.md](BENCHMARKS.md).
-Codec IDs 1/2/3/4 are Fast/Live v1/Live v2/Compact; future rANS has no assigned ID.
+Display names for IDs 1/2/3/4 are Balanced / Live v1 — Legacy / Live /
+Compact — Offline. Historical names Fast / Live v1 / Live v2 / Compact remain
+aliases; IDs and payload syntax are unchanged. Future rANS has no assigned ID.
 
 All integers are little-endian. `u8/u16/u32/u64` unsigned, `i64` signed,
 `f32` IEEE-754 binary32. CRC32C is the Castagnoli CRC (poly `0x82F63B78`,
@@ -131,7 +133,7 @@ u8[meta_len]  per-frame JSON (exposure_ns, iso, frame_duration_ns,
 u8[]          codec payload (§3.1), to end of chunk
 ```
 
-### 3.1 Codec payload (codec id 1, "CRAW-Fast")
+### 3.1 CRAW Balanced (codec id 1; historical name "CRAW-Fast")
 
 ```
 u8   codec_id = 1
@@ -225,7 +227,7 @@ per-pixel context adaptation (4.97 vs 4.75 bpp binned, 3.62 vs 3.67 full-res).
 from the sensor noise profile and ISO; v0.1 reference uses
 `max(1, 2^(bit_depth-8)) * 4`. Any value 1..65535 decodes correctly.
 
-### 3.6 CRAW-Live (codec id 2)
+### 3.6 CRAW Live v1 — Legacy (codec id 2; historical name CRAW-Live)
 
 CRAW-Live is lossless fixed-width block packing. It uses the header and tile
 index in §3.1 with `codec_id = 2`. `rice_init` is present but unused. Both
@@ -273,7 +275,7 @@ stream and packed blocks) is not smaller than `8 * tw * th` bytes.
 Larger tiles are already representable through the header; changing the
 16-sample block length requires a new codec definition.
 
-### 3.7 CRAW-Live v2 (codec id 3)
+### 3.7 CRAW Live (codec id 3; historical name CRAW-Live v2)
 
 Codec 3 has the tile layout, traversal order, stored mode, header and CRC
 rules of §3.6, with two changes: the predictor, and the block header (which
@@ -323,7 +325,7 @@ independent plane).
 Readers present the frame as `W x H` RGB; DNG export uses
 PhotometricInterpretation LinearRaw (34892) with three samples per pixel.
 
-### 3.9 CRAW-Compact (codec id 4; desktop)
+### 3.9 CRAW Compact — Offline (codec id 4; historical name CRAW-Compact)
 
 Uses the common frame header, tile geometry and offset table (§3.1) with
 `codec_id = 4`. `rice_init` is unused. Raw frame CRC and flag bit 0 have the
