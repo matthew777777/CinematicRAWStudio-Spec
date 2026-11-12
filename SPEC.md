@@ -450,3 +450,23 @@ Lists every chunk except META and INDX, in file order.
 - run mode for flat / black tiles
 - near-lossless mode (bounded error, JPEG-LS style)
 - THMB generation guidance, BWF timecode export
+
+
+### Composed DCG/DSG RAW and recording bit depth
+
+The frame payload's `bit_depth` describes the stored sample codes, not the ADC
+precision or measured dynamic range. A verified DCG/DSG RAW14 stream must be
+encoded with `bit_depth: 14` when its samples use that range, even if the camera's
+stock static metadata describes a different, 10-bit mode. Do not truncate,
+right-shift, or mask the original values to fit that stale metadata.
+
+Black/white levels describe calibration in the stored code domain. They do not
+select the codec bit depth. For example, a RAW14 payload can have an optical
+black near 1024 and a per-frame white level of 15424; neither implies a different
+payload depth. Preserve valid `dynamic_black_level` / `dynamic_white_level`
+(or the existing flat `dynamicBlackLevel` / `dynamicWhiteLevel` fields) per frame.
+A container white level cannot establish the information-bearing sensor precision.
+
+The `dcg14_gbrg_codec1` through `dcg14_gbrg_codec4` golden vectors cover all
+codecs with values above 1023 and nonzero low bits. They are synthetic codec
+conformance fixtures, not evidence of any camera's ADC precision.

@@ -71,6 +71,13 @@ def cases():
     yield "compact_escape16", escape, 16, 0, 32, 4
 
 
+    # Full 14-bit code range, including meaningful low bits (not RAW10 << 4).
+    dcg = ((np.arange(64 * 80, dtype=np.uint32).reshape(64, 80) * 73 + 1025) & 16383).astype(np.uint16)
+    dcg[0, :4] = [1024, 1025, 16368, 16383]
+    for codec in (1, 2, 3, 4):
+        yield f"dcg14_gbrg_codec{codec}", dcg, 14, 2, 32, codec
+
+
 def main(out_dir):
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)

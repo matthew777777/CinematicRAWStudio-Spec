@@ -23,7 +23,7 @@ class RoundTrip(unittest.TestCase):
 
     def test_live_codec_all_cfa_and_depths(self):
         rng = np.random.default_rng(2)
-        for bits in (8, 10, 12, 16):
+        for bits in (8, 10, 12, 14, 16):
             for cfa in range(4):
                 raw = rng.integers(0, 1 << bits, (18, 38), dtype=np.uint16)
                 back, info = craw.decode_frame(craw.encode_frame(raw, bits, cfa, tile=13, codec=2))
@@ -31,7 +31,7 @@ class RoundTrip(unittest.TestCase):
 
     def test_live2_codec_round_trip(self):
         rng = np.random.default_rng(3)
-        for bits in (8, 10, 12, 16):
+        for bits in (8, 10, 12, 14, 16):
             for cfa in range(4):
                 raw = rng.integers(0, 1 << bits, (18, 38), dtype=np.uint16)
                 back, _ = craw.decode_frame(craw.encode_frame(raw, bits, cfa, tile=13, codec=3, frame_crc=False))
